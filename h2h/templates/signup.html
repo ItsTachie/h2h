@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+
+{%block content%}
+    <div class=" max-w-[1000px] mx-auto w-full flex flex-col my-22 p-8 justify-center items-center" >
+        <form method="POST" action="" class="">
+            {{ form.hidden_tag() }}
+            <fieldset class="fieldset bg-base-200 border-base-300 rounded-box w-xs sm:w-sm  border p-4 mx-2 ">
+                <legend class="fieldset-legend text-3xl sm:text-4xl"> Join Today </legend>
+                
+                <div class="">
+                    {{ form.number.label(class=' text-[15px] sm:text-[20px]') }}
+                        <br>
+                    {% if form.number.errors %}
+                        {{form.number(class='input input-error')}}
+                        <div class="text-red-500">
+                            {% for error in form.number.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.number(class='input') }}
+                    {% endif %}
+                </div>
+
+                <div class="">
+                    {{ form.email.label(class=' text-[15px] sm:text-[20px]') }}
+                        <br>
+                    {% if form.email.errors %}
+                        {{form.email(class='input input-error')}}
+                        <div class="text-red-500">
+                            {% for error in form.email.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.email(class='input') }}
+                    {% endif %}
+                </div>
+
+                <div class="">
+                    {{ form.password.label(class=' text-[15px] sm:text-[20px]') }}
+                        <br>
+                    {% if form.password.errors %}
+                        {{form.password(class='input input-error')}}
+                        <div class="text-red-500">
+                            {% for error in form.password.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.password(class='input') }}
+                    {% endif %}
+                </div>
+
+                <div class="">
+                    {{ form.confirm_password.label(class=' text-[15px] sm:text-[20px]') }}
+                        <br>
+                    {% if form.confirm_password.errors %}
+                        {{form.confirm_password(class='input input-error')}}
+                        <div class="text-red-500">
+                            {% for error in form.confirm_password.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.confirm_password(class='input') }}
+                    {% endif %}
+                </div>
+                
+                <div class="">
+                    {{ form.submit(class='sm:text-base btn btn-neutral mt-4') }}
+                </div>
+            </fieldset>
+        </form>
+        <div class="pt-4">
+            <small class="text-[14px] sm:text-[16px]">
+                Already Have an account ? <a href="{{url_for('login')}}" class="ml-2 text-blue-400">Login</a>
+            </small>
+        </div>
+    </div>
+
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+{%endblock%}

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% if title %}
+        <title>{{title}}</title>
+    {%else%}
+        <title>H2H</title>
+    {%endif%}
+
+    <link rel="stylesheet" href="static/css/output.css">
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+</head>
+<body class="">
+    {%block content%}
+    {%endblock%}
+    
+    <footer class="footer sm:footer:horizontal footer-center bg-slate-950 text-base-content 
+    py-10 grid place-items-center text-white" >
+        <aside>
+            <p>Copyright ©️ 2025 - All right reserved</p>
+        </aside>
+    </footer> 
+</body>
+</html>
