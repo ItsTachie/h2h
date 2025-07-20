@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+
+{%block content%}
+    <div class="">
+        {% with messages = get_flashed_messages(with_categories=true)%}
+        {% if messages %}
+            {% for category, message in messages %}
+            <div class="alert alert-{{category}}">
+                {{ message }}
+            </div>
+            {% endfor %}
+        {% endif %}
+        {% endwith %}
+    </div>
+
+    <div tabindex="0" class="collapse collapse-arrow bg-base-100 border-base-300 border my-4 mx-auto">
+        <input type="checkbox">
+        <div class="collapse-title font-semibold">Filter</div>
+        <div class="collapse-content text-sm">
+            <div class="" >
+                <p class="mt-2">Categories: </p>
+                <form action="" class="filter">
+                    <input type="reset" value="x" class="btn btn-square">
+                    <input type="radio" aria-label="Vite" class="btn" name="frameworks">
+                    <input type="radio" aria-label="Vite" class="btn" name="frameworks">
+                    <input type="radio" aria-label="Vite" class="btn" name="frameworks">
+                    <input type="radio" aria-label="Vite" class="btn" name="frameworks">
+                    <input type="radio" aria-label="Vite" class="btn" name="frameworks">
+
+                </form>
+            </div>
+
+            <div class="" >
+                <p class="mt-2">Location: </p>
+                <form action="" class="filter">
+                    <input type="reset" value="x" class="btn btn-square">
+                    <input type="radio" aria-label="Vite" class="btn" name="frameworks">
+                    <input type="radio" aria-label="Vite" class="btn" name="frameworks">
+                    <input type="radio" aria-label="Vite" class="btn" name="frameworks">
+                    <input type="radio" aria-label="Vite" class="btn" name="frameworks">
+                    <input type="radio" aria-label="Vite" class="btn" name="frameworks">
+                    <input type="radio" aria-label="Vite" class="btn" name="frameworks">
+                    <input type="radio" aria-label="Vite" class="btn" name="frameworks">
+                    <input type="radio" aria-label="Vite" class="btn" name="frameworks">
+                    <input type="radio" aria-label="Vite" class="btn" name="frameworks">
+                    <input type="radio" aria-label="Vite" class="btn" name="frameworks">
+                    <input type="radio" aria-label="Vite" class="btn" name="frameworks">
+                    <input type="radio" aria-label="Vite" class="btn" name="frameworks">
+                    <input type="radio" aria-label="Vite" class="btn" name="frameworks">
+                    <input type="radio" aria-label="Vite" class="btn" name="frameworks">
+                    <input type="radio" aria-label="Vite" class="btn" name="frameworks">
+                    <input type="radio" aria-label="Vite" class="btn" name="frameworks">
+                    <input type="radio" aria-label="Vite" class="btn" name="frameworks">
+                    <input type="radio" aria-label="Vite" class="btn" name="frameworks">
+                    <input type="radio" aria-label="Vite" class="btn" name="frameworks">
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="flex mt-8 flex-col gap-8 justify-center items-center sm:flex-row sm:flex-wrap sm:gap-16">
+            {% for listing in listings %}
+                <div class="card card-md sm:card-lg mb-2 bg-slate-700 w-96 shadow-sm text-white">
+                    <figure>
+                        <img src="{{url_for('static', filename='img/default.jpg')}}" alt="{{listing.title}}">
+                    </figure>
+                    <div class="card-body">
+                        <h2 class="card-title">
+                            {{listing.title}}
+                            <div class="badge badge-secondary">${{listing.price}}</div>
+                        </h2>
+                        <p>{{listing.description}}</p>
+                        <div class="card-action justify-end">
+                            <div class="badge badge-outline">{{listing.category}}</div>
+                            <div class="badge badge-outline ml-2">{{listing.location}}</div>
+                            <button class="btn ml-20">View</button>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+    </div>
+
+    <div class="join mx-auto w-fit flex justify-center my-20">
+        <button class="join-item btn">-</button>
+        <button class="join-item btn">Page 1</button>
+        <button class="join-item btn">-</button>
+    </div>
+{%endblock%}

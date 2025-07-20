@@ -1,7 +1,19 @@
 {% extends 'base.html' %}
 
 {%block content%}
-    <div class="w-full mx-auto flex flex-col justify-center items-center my-40 " >
+    <h1 class="text-2xl sm:text-3xl md:text-4xl p-4"><a href="{{url_for('home')}}">Hand2Hand</a></h1>
+    <div class="w-full mx-auto flex flex-col justify-center mb-8 items-center mt-22 " >
+        <div class="">
+            {% with messages = get_flashed_messages(with_categories=true)%}
+              {% if messages %}
+                {% for category, message in messages %}
+                  <div class="alert alert-{{category}}">
+                    {{ message }}
+                  </div>
+                {% endfor %}
+              {% endif %}
+            {% endwith %}
+          </div>
         <form method="POST" action="">
             {{ form.hidden_tag() }}
             <fieldset class="fieldset  bg-base-200 border-base-300 rounded-box w-xs sm:w-sm border p-4">
@@ -35,6 +47,11 @@
                     {% else %}
                         {{ form.password(class='input') }}
                     {% endif %}
+                </div>
+
+                <div class="flex gap-2 items-center justify-start">
+                    {{ form.remember(class='checkbox') }}
+                    {{ form.remember.label(class=' text-[15px] sm:text-[20px]') }}
                 </div>
 
                 

@@ -57,11 +57,11 @@ class LoginForm(FlaskForm):
     remember = BooleanField('Remember me')
     submit = SubmitField('Login')
 
-
 class ListingForm(FlaskForm):
     title = StringField('Title', validators=[DataRequired()])
     price = IntegerField('Price', validators=[DataRequired()])
-    category = SelectField('Category',validators=[DataRequired()], choices=[('electronics','Electronic'),('fashion','Fashion'),('home&garden','Home & Garden'),('health&beauty','health&beauty'),('sports&outdoors','Sports & Outdoors'),('toys&games','Toys & Games'),('automotive','Automotive'),('books&media','Books & Media'),('pets','Pets'),('arts&crafts','Arts & Crafts'),('services','Services'),('food&beverage','Food & Beverage')])
-    location = SelectField('Location',validators=[DataRequired()],choices=[('gweru','Gweru'),('harare','Harare'),('bulawayo','Bulawayo'),('mutare','Mutare'),('masvingo','Masvingo'),('chinhoyi','Chinhoyi'),('kwekwe','Kwekwe'),('chitungwiza','Chitungwiza'),('kadoma','Kadoma'),('kariba','Kariba'),('chimanimani','Chimanimani'),('chipinge','Chipinge'),('bindura','Bindura'),('Gokwe','Gokwe')])
+    category = SelectField('Category',validators=[DataRequired()], choices=[('electronics','Electronic'),('fashion','Fashion'),('home&garden','Home & Garden'),('health&beauty','Health & Beauty'),('sports&outdoors','Sports & Outdoors'),('toys&games','Toys & Games'),('automotive','Automotive'),('books&media','Books & Media'),('pets','Pets'),('arts&crafts','Arts & Crafts'),('services','Services'),('food&beverage','Food & Beverage')])
+    location = SelectField('Location',validators=[DataRequired()],choices=[('harare','Harare'),('gweru','Gweru'),('bulawayo','Bulawayo'),('mutare','Mutare'),('masvingo','Masvingo'),('chinhoyi','Chinhoyi'),('kwekwe','Kwekwe'),('chitungwiza','Chitungwiza'),('kadoma','Kadoma'),('kariba','Kariba'),('chimanimani','Chimanimani'),('chipinge','Chipinge'),('bindura','Bindura'),('Gokwe','Gokwe')])
     description = TextAreaField('Description',validators=[DataRequired()])
+    picture = FileField('Picture',validators=[FileAllowed(['jpg','png','jpeg'])])
     submit = SubmitField('Create')
