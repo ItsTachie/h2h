@@ -1,0 +1,12 @@
+# feature's
+- image file processing auto resize to a 4:3 ratio and add image to listing_images file 
+- contact seller button functionality (whatsapp hardlink)
+- filter and live search (htmx jquery partial results)
+- delete account functionality 
+- forgot password 
+- oauth login options (google, facebook)
+
+# cosmetics's
+- coherent styling all around the website
+- better footer with links to socials and legal things
+

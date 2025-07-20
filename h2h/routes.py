@@ -24,14 +24,15 @@ def signup():
         user = User(username=form.username.data, number=number, email=form.email.data, password=hashed_password )
         db.session.add(user)
         db.session.commit()
-        flash(f'Your account has been created! You are now able to login', 'success')
-        return redirect(url_for('login'))
+        login_user(user, remember=True)
+        flash(f'Welcome', 'info')
+        return redirect(url_for('dashboard'))
     return render_template('signup.html', title='Signup',form=form)
 
 @app.route("/login", methods=['POST', 'GET'])
 def login():
     if current_user.is_authenticated:
-            return redirect(url_for('home'))
+            return redirect(url_for('dashboard'))
     form = LoginForm()
     if form.validate_on_submit():
         user = User.query.filter_by(email=form.email.data).first()
@@ -40,7 +41,6 @@ def login():
             next_page = request.args.get('next')
             return redirect(next_page) if next_page else redirect(url_for('dashboard'))
         else:
-            print('no user found')
             flash('Login unsuccessful. Please check email and password !', 'error')
     return render_template('login.html', title='Login',form=form)
 
@@ -52,8 +52,13 @@ def logout():
 @app.route('/dashboard')
 @login_required
 def dashboard():
-    listings = Listing.query.all()
-    return render_template('dashboard.html', listings=listings)
+    form = ListingForm()
+    categories = [ choice[1] for choice in form.category.choices]
+    
+    locations = [ choice[1] for choice in form.location.choices]
+    page = request.args.get('page', 1,type=int)
+    listings = Listing.query.order_by(Listing.created_at.desc()).paginate(page=page, per_page=5)
+    return render_template('dashboard.html', listings=listings, categories=categories, locations=locations)
 
 @app.route('/listing/new', methods=['GET','POST'])
 @login_required
@@ -70,7 +75,7 @@ def new_listing():
           db.session.add(listing)
           db.session.commit()
           flash('Listing created.', 'success')
-          return redirect(url_for('dashboard'))
+          return redirect(url_for('listing_manager'))
      return render_template('new_listing.html', title='New Listing', legend='New Listing',form=form)
 
 @app.route('/listing/<int:listing_id>')
@@ -103,7 +108,7 @@ def update_listing(listing_id):
           form.category.data= listing.category
           form.location.data = listing.location
         
-     return render_template('new_listing.html', title='Update Listing', legend='Update Listing',form=form)
+     return render_template('new_listing.html', title='Edit Listing', legend='Edit Listing',form=form)
 
 @app.route('/listing/<int:listing_id>/delete',methods=['POST'])
 @login_required
@@ -129,7 +134,7 @@ def account():
          db.session.commit()
          flash('Account has been updated.', 'success')
          return redirect(url_for('account'))
-    elif request.method == 'GET':
+    if request.method == 'GET':
         #prefill the fields with the following information
         form.email.data = current_user.email
         form.number.data= current_user.number

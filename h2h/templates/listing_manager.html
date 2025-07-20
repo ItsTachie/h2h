@@ -1,39 +1,26 @@
 {%extends 'base.html'%}
 
 
-{% block content %}
-
-    <div class="">
-        {% with messages = get_flashed_messages(with_categories=true)%}
-        {% if messages %}
-            {% for category, message in messages %}
-            <div class="alert alert-{{category}}">
-                {{ message }}
-            </div>
-            {% endfor %}
-        {% endif %}
-        {% endwith %}
-    </div>
-
+{% block content %}     
     {% if listings %}
-        <ul class=" mt-4 mb-80 list bg-base-100 rounded-box shadow-md">
-            <li class="p-4 pb-2 text-xs opacity-60 tracking-wide" >You active listings ({{num_listings}})</li>
+        <ul class=" mt-4 mb-80 list bg-base-100 rounded-box p-2 text-white" >
+            <li class="p-4 pb-2 text-xs text-slate-900 opacity-70 tracking-wide" >You active listings ({{num_listings}})</li>
             {% for listing in listings %}
-                <li class="list-row bg-amber-950">
+                <li class="list-row bg-slate-900 my-2">
                     <div>
                         <img src="{{url_for('static', filename='img/default.jpg')}}" alt="" class="size-10 rounded-box">
                     </div>
                     <div>
-                        <div>{{listing.title}}</div>
+                        <div>{{listing.title|truncate(20,True, '...' )}}</div>
                         <div class="text-xs uppercase font-semibold opacity-60">$ {{listing.price}}</div>
-                        <p class="list-col-wrap text-xs">{{listing.description}}</p>
+                        <p class="list-col-wrap text-xs">{{listing.description|truncate(20,True, '...' )}}</p>
                     </div>
                     <a class="btn " href="">Boost</a>
                     <a class="btn " href="{{url_for('update_listing' , listing_id=listing.id)}}">Edit</a>
                     <label class="btn " for="delete_modal" >Delete</label>
                     <input type="checkbox" id="delete_modal" class="modal-toggle">
                     <div class="modal" role="dialog">
-                        <div class="modal-box">
+                        <div class="modal-box  bg-slate-900">
                         <h3 class="text-lg font-bold">Delete</h3>
                         <p class="py-4"> Are you sure ? This action cannot be undone. </p>
                         <div class="modal-action">

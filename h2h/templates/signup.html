@@ -1,19 +1,8 @@
 {% extends 'base.html' %}
 
 {%block content%}
-    <h1 class="text-2xl sm:text-3xl md:text-4xl p-4"><a href="{{url_for('home')}}">Hand2Hand</a></h1>
     <div class="mx-auto w-full flex flex-col mt-22 mb-8 justify-center items-center" >
-        <div class="">
-            {% with messages = get_flashed_messages(with_categories=true)%}
-              {% if messages %}
-                {% for category, message in messages %}
-                  <div class="alert alert-{{category}}">
-                    {{ message }}
-                  </div>
-                {% endfor %}
-              {% endif %}
-            {% endwith %}
-          </div>
+
         <form method="POST" action="" class="">
             {{ form.hidden_tag() }}
             <fieldset class="fieldset bg-base-200 border-base-300 rounded-box w-xs sm:w-sm  border p-4 mx-2 ">

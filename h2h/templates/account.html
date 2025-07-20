@@ -2,81 +2,91 @@
 
 {%block content%}
 
-<div class="">
-    {% with messages = get_flashed_messages(with_categories=true)%}
-      {% if messages %}
-        {% for category, message in messages %}
-          <div class="alert alert-{{category}}">
-            {{ message }}
-          </div>
-        {% endfor %}
-      {% endif %}
-    {% endwith %}
-</div>
+<div class="p-8 my-20 w-fit mx-auto max-w-[1000px] rounded text-white bg-slate-900 " >
+    <h3 class="text-4xl my-2 ml-2 text-center">Account Info </h3>
+    <hr class="opacity-85 my-4">
+    <p class="ml-4 text-lg"><span class="font-semibold">Username:</span> {{current_user.username}}</p>
+    <p class="ml-4 text-lg"><span class="font-semibold">Email:</span> {{current_user.email}}</p>
+    <p class="ml-4 text-lg"><span class="font-semibold">Number:</span> {{current_user.number}}</p>
 
-<div class="p-8 border m-4">
-    <h3 class="text-4xl my-2">Account Info: </h3>
-    <p class="text-2xl">{{current_user.username}}</p>
-    <p class="text-2xl">{{current_user.email}}</p>
-    <p class="text-2xl">{{current_user.number}}</p>
-    
-    <form method="POST" action="" class="">
-        {{ form.hidden_tag() }}
-        <fieldset class="fieldset bg-base-200 border-base-300 rounded-box w-xs sm:w-sm  border p-4 mx-2 ">
-            <legend class="fieldset-legend text-3xl sm:text-4xl"> Join Today </legend>
-            
-
-            <div class="">
-                {{ form.username.label(class=' text-[15px] sm:text-[20px]') }}
-                    <br>
-                {% if form.username.errors %}
-                    {{form.username(class='input input-error')}}
-                    <div class="text-red-500">
-                        {% for error in form.username.errors %}
-                            <span>{{ error }}</span>
-                        {% endfor %}
+    <div class="collapse collapse-arrow  my-4 {% if form.number.errors or form.username.errors or 
+        form.email.errors%} collapse-open {%endif%}">
+        <input type="checkbox">
+        <div class="collapse-title font-semibold">Edit Account Information</div>
+        <div class="collapse-content text-sm">
+            <form method="POST" action="" class="my-10 text-black">
+                {{ form.hidden_tag() }}
+                <fieldset class="fieldset bg-base-200 border-base-300 rounded-box w-xs sm:w-sm  border p-4 mx-2 ">
+                    
+        
+                    <div class="">
+                        {{ form.username.label(class=' text-[15px] sm:text-[20px]') }}
+                            <br>
+                        {% if form.username.errors %}
+                            {{form.username(class='input input-error')}}
+                            <div class="text-red-500">
+                                {% for error in form.username.errors %}
+                                    <span>{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            {{ form.username(class='input') }}
+                        {% endif %}
                     </div>
-                {% else %}
-                    {{ form.username(class='input') }}
-                {% endif %}
-            </div>
-            
-            <div class="">
-                {{ form.email.label(class=' text-[15px] sm:text-[20px]') }}
-                    <br>
-                {% if form.email.errors %}
-                    {{form.email(class='input input-error')}}
-                    <div class="text-red-500">
-                        {% for error in form.email.errors %}
-                            <span>{{ error }}</span>
-                        {% endfor %}
+                    
+                    <div class="">
+                        {{ form.email.label(class=' text-[15px] sm:text-[20px]') }}
+                            <br>
+                        {% if form.email.errors %}
+                            {{form.email(class='input input-error')}}
+                            <div class="text-red-500">
+                                {% for error in form.email.errors %}
+                                    <span>{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            {{ form.email(class='input') }}
+                        {% endif %}
                     </div>
-                {% else %}
-                    {{ form.email(class='input') }}
-                {% endif %}
-            </div>
-
-
-            <div class="">
-                {{ form.number.label(class=' text-[15px] sm:text-[20px]') }}
-                    <br>
-                {% if form.number.errors %}
-                    {{form.number(class='input input-error')}}
-                    <div class="text-red-500">
-                        {% for error in form.number.errors %}
-                            <span>{{ error }}</span>
-                        {% endfor %}
+        
+        
+                    <div class="">
+                        {{ form.number.label(class=' text-[15px] sm:text-[20px]') }}
+                            <br>
+                        {% if form.number.errors %}
+                            {{form.number(class='input input-error')}}
+                            <div class="text-red-500">
+                                {% for error in form.number.errors %}
+                                    <span>{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            {{ form.number(class='input') }}
+                        {% endif %}
                     </div>
-                {% else %}
-                    {{ form.number(class='input') }}
-                {% endif %}
-            </div>
-            
-            <div class="">
-                {{ form.submit(class='sm:text-base btn btn-neutral mt-4') }}
-            </div>
-        </fieldset>
-    </form>
+                    
+                    <div class="">
+                        {{ form.submit(class='sm:text-base btn btn-neutral mt-4') }}
+                    </div>
+                </fieldset>
+            </form>
+        
+        </div>
+    </div>
+
+    <label class="btn btn-error" for="delete_modal" >Delete Accout</label>
+    <input type="checkbox" id="delete_modal" class="modal-toggle">
+    <div class="modal" role="dialog">
+        <div class="modal-box  bg-slate-900">
+        <h3 class="text-lg font-bold">Delete Account</h3>
+        <p class="py-4"> Are you sure ? This action cannot be undone. </p>
+        <div class="modal-action">
+            <form action="" method="post">
+                <input type="submit" class="btn" value="Delete">
+            </form>
+            <label for="delete_modal" class="btn">Close</label>
+        </div>
+    </div>
 </div>
 
 
