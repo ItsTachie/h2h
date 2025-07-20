@@ -67,15 +67,52 @@ def new_listing():
                              price=price, category=category,location=location ,author=current_user)
           db.session.add(listing)
           db.session.commit()
-          flash('Post has been created.', 'success')
+          flash('Listing created.', 'success')
           return redirect(url_for('dashboard'))
-     return render_template('new_listing.html', title='New Listing',form=form)
+     return render_template('new_listing.html', title='New Listing', legend='New Listing',form=form)
 
 @app.route('/listing/<int:listing_id>')
 @login_required
 def listing(listing_id):
      listing = Listing.query.get_or_404(listing_id)
      return render_template('listing.html', listing=listing)
+
+@app.route('/listing/<int:listing_id>/update',methods=['GET','POST'])
+@login_required
+def update_listing(listing_id):
+     listing = Listing.query.get_or_404(listing_id)
+     if listing.author != current_user:
+          abort(403)
+     form = ListingForm()
+     if form.validate_on_submit():
+            listing.title = form.title.data
+            listing.description=form.description.data
+            listing.price=form.price.data
+            listing.category=request.form.get('category','')
+            listing.location=request.form.get('location','')
+            db.session.commit()
+            flash('Listing has been updated.', 'success')
+            return redirect(url_for('listing_manager'))
+     elif request.method =='GET':
+          form.submit.label.text ='Update'
+          form.title.data = listing.title
+          form.description.data= listing.description
+          form.price.data= listing.price
+          form.category.data= listing.category
+          form.location.data = listing.location
+        
+     return render_template('new_listing.html', title='Update Listing', legend='Update Listing',form=form)
+
+@app.route('/listing/<int:listing_id>/delete',methods=['POST'])
+@login_required
+def delete_listing(listing_id):
+     listing = Listing.query.get_or_404(listing_id)
+     if listing.author != current_user:
+          abort(403)
+     db.session.delete(listing)
+     db.session.commit()
+     flash('Listing has been deleted.', 'success')
+     return redirect(url_for('listing_manager'))
 
 @app.route('/account', methods = ['GET','POST'])
 @login_required
@@ -92,3 +129,11 @@ def account():
         form.email.data = current_user.email
         form.number.data= current_user.number
     return render_template('account.html', title='Account', form=form)
+
+
+
+@app.route('/listings')
+@login_required
+def listing_manager():
+     listings = Listing.query.filter_by(uid=current_user.id).all()
+     return render_template('listing_manager.html', listings=listings, num_listings=len(listings))

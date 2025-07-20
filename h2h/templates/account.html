@@ -1,63 +1,68 @@
 {% extends 'base.html' %}
 
 {%block content%}
-    <div class="mx-auto w-full flex flex-col mt-22 mb-8 justify-center items-center" >
-        <div class="">
-            {% with messages = get_flashed_messages(with_categories=true)%}
-              {% if messages %}
-                {% for category, message in messages %}
-                  <div class="alert alert-{{category}}">
-                    {{ message }}
-                  </div>
-                {% endfor %}
-              {% endif %}
-            {% endwith %}
+
+<div class="">
+    {% with messages = get_flashed_messages(with_categories=true)%}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class="alert alert-{{category}}">
+            {{ message }}
           </div>
-        <form method="POST" action="" class="">
-            {{ form.hidden_tag() }}
-            <fieldset class="fieldset bg-base-200 border-base-300 rounded-box w-xs sm:w-sm  border p-4 mx-2 ">
-                <legend class="fieldset-legend text-3xl sm:text-4xl"> Account Info </legend>
-                
-                <div class="">
-                    {{ form.number.label(class=' text-[15px] sm:text-[20px]') }}
-                        <br>
-                    {% if form.number.errors %}
-                        {{form.number(class='input input-error')}}
-                        <div class="text-red-500">
-                            {% for error in form.number.errors %}
-                                <span>{{ error }}</span>
-                            {% endfor %}
-                        </div>
-                    {% else %}
-                        {{ form.number(class='input') }}
-                    {% endif %}
-                </div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+</div>
 
-                <div class="">
-                    {{ form.email.label(class=' text-[15px] sm:text-[20px]') }}
-                        <br>
-                    {% if form.email.errors %}
-                        {{form.email(class='input input-error')}}
-                        <div class="text-red-500">
-                            {% for error in form.email.errors %}
-                                <span>{{ error }}</span>
-                            {% endfor %}
-                        </div>
-                    {% else %}
-                        {{ form.email(class='input') }}
-                    {% endif %}
-                </div>
-                
-                <div class="">
-                    {{ form.submit(class='sm:text-base btn btn-neutral mt-4') }}
-                </div>
-            </fieldset>
-        </form>
-    </div>
+<div class="p-8 border m-4">
+    <h3 class="text-4xl my-2">Account Info: </h3>
+    <p class="text-2xl">name</p>
+    <p class="text-2xl">{{current_user.email}}</p>
+    <p class="text-2xl">{{current_user.number}}</p>
+    
+    <form method="POST" action="" class="mt-8">
+        {{ form.hidden_tag() }}
+        <fieldset class="fieldset bg-base-200 border-base-300 rounded-box w-xs sm:w-sm  border p-4 mx-2 ">
+            <legend class="fieldset-legend text-3xl sm:text-4xl"></legend>
+            
+            <div class="">
+                {{ form.number.label(class=' text-[15px] sm:text-[20px]') }}
+                    <br>
+                {% if form.number.errors %}
+                    {{form.number(class='input input-error')}}
+                    <div class="text-red-500">
+                        {% for error in form.number.errors %}
+                            <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    {{ form.number(class='input') }}
+                {% endif %}
+            </div>
+    
+            <div class="">
+                {{ form.email.label(class=' text-[15px] sm:text-[20px]') }}
+                    <br>
+                {% if form.email.errors %}
+                    {{form.email(class='input input-error')}}
+                    <div class="text-red-500">
+                        {% for error in form.email.errors %}
+                            <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    {{ form.email(class='input') }}
+                {% endif %}
+            </div>
+            
+            <div class="">
+                {{ form.submit(class='sm:text-base btn btn-neutral mt-4') }}
+            </div>
+        </fieldset>
+    </form>
+</div>
 
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
+
+
+
 {%endblock%}

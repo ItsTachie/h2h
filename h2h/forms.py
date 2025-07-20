@@ -45,7 +45,7 @@ class UpdateAccountForm(FlaskForm):
     submit = SubmitField('Update')
 
     def validate_number(self,number):
-        if number.data != current_user.number:
+        if phonenumbers.parse(number.data) != current_user.number:
             try:
                 parsed_number = phonenumbers.parse(number.data, 'ZW')
                 if not phonenumbers.is_valid_number(parsed_number):
@@ -62,6 +62,30 @@ class UpdateAccountForm(FlaskForm):
             user = User.query.filter_by(email=email.data).first()
             if user:
                 raise ValidationError('That email already in use ! Please choose another one')
+
+
+
+'''
+class UpdateAccountForm(FlaskForm):
+    username = StringField('Username', 
+                           validators=[DataRequired(), Length(2,20)])
+    email = StringField('Email', validators=[DataRequired(), Email() ])
+    picture = FileField('Update Profile Picture',validators=[FileAllowed(['jpg','png','jpeg'])])
+    submit = SubmitField('Update')
+
+    def validate_username(self,username):
+        if username.data != current_user.username:
+            user = User.query.filter_by(username=username.data).first()
+            if user:
+                raise ValidationError('That username is taken ! Please choose another one')
+
+    def validate_email(self,email):
+        if email.data != current_user.email:
+            user = User.query.filter_by(email=email.data).first()
+            if user:
+                raise ValidationError('That email already in use ! Please choose another one')
+
+'''
 
 class LoginForm(FlaskForm):
     email = StringField('Email', validators=[DataRequired(), Email() ])
