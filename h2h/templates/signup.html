@@ -19,21 +19,22 @@
             <fieldset class="fieldset bg-base-200 border-base-300 rounded-box w-xs sm:w-sm  border p-4 mx-2 ">
                 <legend class="fieldset-legend text-3xl sm:text-4xl"> Join Today </legend>
                 
+
                 <div class="">
-                    {{ form.number.label(class=' text-[15px] sm:text-[20px]') }}
+                    {{ form.username.label(class=' text-[15px] sm:text-[20px]') }}
                         <br>
-                    {% if form.number.errors %}
-                        {{form.number(class='input input-error')}}
+                    {% if form.username.errors %}
+                        {{form.username(class='input input-error')}}
                         <div class="text-red-500">
-                            {% for error in form.number.errors %}
+                            {% for error in form.username.errors %}
                                 <span>{{ error }}</span>
                             {% endfor %}
                         </div>
                     {% else %}
-                        {{ form.number(class='input') }}
+                        {{ form.username(class='input') }}
                     {% endif %}
                 </div>
-
+                
                 <div class="">
                     {{ form.email.label(class=' text-[15px] sm:text-[20px]') }}
                         <br>
@@ -46,6 +47,22 @@
                         </div>
                     {% else %}
                         {{ form.email(class='input') }}
+                    {% endif %}
+                </div>
+
+
+                <div class="">
+                    {{ form.number.label(class=' text-[15px] sm:text-[20px]') }}
+                        <br>
+                    {% if form.number.errors %}
+                        {{form.number(class='input input-error')}}
+                        <div class="text-red-500">
+                            {% for error in form.number.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.number(class='input') }}
                     {% endif %}
                 </div>
 

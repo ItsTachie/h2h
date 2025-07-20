@@ -3,7 +3,7 @@ from h2h import app, db,bcrypt
 from h2h.models import User, Listing
 from h2h.forms import ListingForm, RegistrationFrom, LoginForm, UpdateAccountForm
 from flask_login import login_user, current_user, logout_user, login_required
-
+from phonenumbers import parse ,format_number,PhoneNumberFormat
 
 
 @app.route("/")
@@ -15,11 +15,13 @@ def home():
 @app.route("/signup", methods=['POST', 'GET'])
 def signup():
     if current_user.is_authenticated:
-            return redirect(url_for('home'))
+            return redirect(url_for('dashboard'))
     form = RegistrationFrom()
     if form.validate_on_submit():
         hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
-        user = User(number=form.number.data, email=form.email.data, password=hashed_password )
+        num_obj = parse(form.number.data,'ZW')
+        number= format_number(num_obj,PhoneNumberFormat.E164)
+        user = User(username=form.username.data, number=number, email=form.email.data, password=hashed_password )
         db.session.add(user)
         db.session.commit()
         flash(f'Your account has been created! You are now able to login', 'success')
@@ -119,8 +121,11 @@ def delete_listing(listing_id):
 def account():   
     form = UpdateAccountForm()
     if form.validate_on_submit():
+         current_user.username = form.username.data
          current_user.email = form.email.data
-         current_user.number = form.number.data
+         num_obj = parse(form.number.data,'ZW')
+         number= format_number(num_obj,PhoneNumberFormat.E164)
+         current_user.number = number
          db.session.commit()
          flash('Account has been updated.', 'success')
          return redirect(url_for('account'))
@@ -128,6 +133,7 @@ def account():
         #prefill the fields with the following information
         form.email.data = current_user.email
         form.number.data= current_user.number
+        form.username.data=current_user.username
     return render_template('account.html', title='Account', form=form)
 
 
