@@ -1,7 +1,6 @@
 {% extends 'base.html' %}
 
 {%block content%}
-    <h1 class="text-2xl sm:text-3xl md:text-4xl p-4"><a href="{{url_for('home')}}">Hand2Hand</a></h1>
     <div class="mx-auto w-full flex flex-col mt-22 mb-8 justify-center items-center" >
         <div class="">
             {% with messages = get_flashed_messages(with_categories=true)%}
@@ -17,7 +16,7 @@
         <form method="POST" action="" class="">
             {{ form.hidden_tag() }}
             <fieldset class="fieldset bg-base-200 border-base-300 rounded-box w-xs sm:w-sm  border p-4 mx-2 ">
-                <legend class="fieldset-legend text-3xl sm:text-4xl"> Join Today </legend>
+                <legend class="fieldset-legend text-3xl sm:text-4xl"> Account Info </legend>
                 
                 <div class="">
                     {{ form.number.label(class=' text-[15px] sm:text-[20px]') }}
@@ -48,47 +47,12 @@
                         {{ form.email(class='input') }}
                     {% endif %}
                 </div>
-
-                <div class="">
-                    {{ form.password.label(class=' text-[15px] sm:text-[20px]') }}
-                        <br>
-                    {% if form.password.errors %}
-                        {{form.password(class='input input-error')}}
-                        <div class="text-red-500">
-                            {% for error in form.password.errors %}
-                                <span>{{ error }}</span>
-                            {% endfor %}
-                        </div>
-                    {% else %}
-                        {{ form.password(class='input') }}
-                    {% endif %}
-                </div>
-
-                <div class="">
-                    {{ form.confirm_password.label(class=' text-[15px] sm:text-[20px]') }}
-                        <br>
-                    {% if form.confirm_password.errors %}
-                        {{form.confirm_password(class='input input-error')}}
-                        <div class="text-red-500">
-                            {% for error in form.confirm_password.errors %}
-                                <span>{{ error }}</span>
-                            {% endfor %}
-                        </div>
-                    {% else %}
-                        {{ form.confirm_password(class='input') }}
-                    {% endif %}
-                </div>
                 
                 <div class="">
                     {{ form.submit(class='sm:text-base btn btn-neutral mt-4') }}
                 </div>
             </fieldset>
         </form>
-        <div class="pt-4">
-            <small class="text-[14px] sm:text-[16px]">
-                Already Have an account ? <a href="{{url_for('login')}}" class="ml-2 text-blue-400">Login</a>
-            </small>
-        </div>
     </div>
 
     <br>

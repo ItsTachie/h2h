@@ -61,20 +61,20 @@
 
     <div class="flex mt-8 flex-col gap-8 justify-center items-center sm:flex-row sm:flex-wrap sm:gap-16">
             {% for listing in listings %}
-                <div class="card card-md sm:card-lg mb-2 bg-slate-700 w-96 shadow-sm text-white">
+                <div class="min-h-[500px] min-w-[400px] card card-md sm:card-lg mb-2 bg-slate-700 w-96 shadow-sm text-white">
                     <figure>
                         <img src="{{url_for('static', filename='img/default.jpg')}}" alt="{{listing.title}}">
                     </figure>
                     <div class="card-body">
-                        <h2 class="card-title">
+                        <h2 class="card-title overflow-hidden  max-h-16">
                             {{listing.title}}
                             <div class="badge badge-secondary">${{listing.price}}</div>
                         </h2>
-                        <p>{{listing.description}}</p>
+                        <p class="overflow-clip  max-h-24">{{listing.description}}</p>
                         <div class="card-action justify-end">
                             <div class="badge badge-outline">{{listing.category}}</div>
                             <div class="badge badge-outline ml-2">{{listing.location}}</div>
-                            <button class="btn ml-20">View</button>
+                            <a href="{{url_for('listing', listing_id=listing.id)}}" class="btn ml-8">View</a>
                         </div>
                     </div>
                 </div>

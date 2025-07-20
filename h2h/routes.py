@@ -1,52 +1,10 @@
 from flask import render_template, url_for, request,flash,abort, redirect
 from h2h import app, db,bcrypt
 from h2h.models import User, Listing
-from h2h.forms import ListingForm, RegistrationFrom, LoginForm
+from h2h.forms import ListingForm, RegistrationFrom, LoginForm, UpdateAccountForm
 from flask_login import login_user, current_user, logout_user, login_required
 
 
-listings = [
-     {
-          'title': 'test1',
-          'description': 'test1 description of the listing',
-          'price': 2,
-          'category': 'Electronics',
-          'location': 'Harare',
-          'imgae_file': 'default.jpg',
-          'created_at': '27/07/2025'
-     },
-          {
-          'title': 'test1',
-          'description': 'test1 description of the listing',
-          'price': 2,
-          'category': 'Electronics',
-          'location': 'Harare',
-          'imgae_file': 'default.jpg',
-          'created_at': '27/07/2025'
-     },
-          {
-          'title': 'test1',
-          'description': 'test1 description of the listing',
-          'price': 2,
-          'category': 'Electronics',
-          'location': 'Harare',
-          'imgae_file': 'default.jpg',
-          'created_at': '27/07/2025'
-     },
-          {
-          'title': 'test1',
-          'description': 'test1 description of the listing',
-          'price': 2,
-          'category': 'Electronics',
-          'location': 'Harare',
-          'imgae_file': 'default.jpg',
-          'created_at': '27/07/2025'
-     }
-
-
-
-
-]
 
 @app.route("/")
 def home():
@@ -92,22 +50,45 @@ def logout():
 @app.route('/dashboard')
 @login_required
 def dashboard():
-    return render_template('dashboard.html', listings =listings)
+    listings = Listing.query.all()
+    return render_template('dashboard.html', listings=listings)
 
 @app.route('/listing/new', methods=['GET','POST'])
 @login_required
 def new_listing():
      form = ListingForm()
-     '''
      if form.validate_on_submit():
-          listing = Listing(title=form.title.data, description=form.description.data, author=current_user)
+          title = form.title.data
+          description=form.description.data
+          price=form.price.data
+          category=request.form.get('category','')
+          location=request.form.get('location','')
+          listing = Listing(title=title, description=description,
+                             price=price, category=category,location=location ,author=current_user)
           db.session.add(listing)
           db.session.commit()
-          flash('post has been created', 'success')
+          flash('Post has been created.', 'success')
           return redirect(url_for('dashboard'))
-    '''
-     if form.validate_on_submit():
-        flash('post has been created', 'success')
-        return redirect(url_for('dashboard'))
-     return render_template('new_listing.html',title='Title', form=form)
-     #return render_template('new_listing.html', title='New Listing',form=form)
+     return render_template('new_listing.html', title='New Listing',form=form)
+
+@app.route('/listing/<int:listing_id>')
+@login_required
+def listing(listing_id):
+     listing = Listing.query.get_or_404(listing_id)
+     return render_template('listing.html', listing=listing)
+
+@app.route('/account', methods = ['GET','POST'])
+@login_required
+def account():   
+    form = UpdateAccountForm()
+    if form.validate_on_submit():
+         current_user.email = form.email.data
+         current_user.number = form.number.data
+         db.session.commit()
+         flash('Account has been updated.', 'success')
+         return redirect(url_for('account'))
+    elif request.method == 'GET':
+        #prefill the fields with the following information
+        form.email.data = current_user.email
+        form.number.data= current_user.number
+    return render_template('account.html', title='Account', form=form)

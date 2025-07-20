@@ -9,7 +9,7 @@ def load_user(user_id):
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(120), unique=True, nullable=False)
-    number = db.Column(db.Integer(),nullable=False, default='default.jpg')
+    number = db.Column(db.Integer(), unique=True,nullable=False, default='default.jpg')
     password = db.Column(db.String(60), nullable=False)
     listings = db.relationship('Listing', backref='author', lazy=True)
 
@@ -28,5 +28,5 @@ class Listing(db.Model):
     uid = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 
     def __repr__(self):
-        return f'Listing("{self.title}", "{self.date_posted}")'
+        return f'Listing("{self.title}", "{self.created_at}")'
     
