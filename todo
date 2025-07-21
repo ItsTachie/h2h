@@ -1,12 +1,13 @@
 # feature's
 - image file processing auto resize to a 4:3 ratio and add image to listing_images file 
-- contact seller button functionality (whatsapp hardlink)
 - filter and live search (htmx jquery partial results)
 - delete account functionality 
 - forgot password 
 - oauth login options (google, facebook)
+- on click of seller username show posts made by them 
+    - if posts belong to user show link to manage listings page 
 
 # cosmetics's
 - coherent styling all around the website
 - better footer with links to socials and legal things
-
+- add whatsapp logo to contact seller button 

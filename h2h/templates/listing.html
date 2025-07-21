@@ -21,9 +21,11 @@
     
                 </div>
 
+                <div class="text-lg">Posted by: <a class="link" href="{{url_for('user_listings', username=listing.author.username)}}">{{listing.author.username }}</a></div>
+
         </div>
         <div class="  my-20 mx-5">
-            <a href="#" class="btn bg-green-600 btn-lg border-0 shadow-none "> Contact Seller </a>
+            <a href="{{whatsapp_link}}" class="btn bg-green-600 btn-lg border-0 shadow-none "> Contact Seller </a>
         </div>
     </div>
 

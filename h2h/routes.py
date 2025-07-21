@@ -4,7 +4,7 @@ from h2h.models import User, Listing
 from h2h.forms import ListingForm, RegistrationFrom, LoginForm, UpdateAccountForm
 from flask_login import login_user, current_user, logout_user, login_required
 from phonenumbers import parse ,format_number,PhoneNumberFormat
-
+from urllib.parse import quote
 
 @app.route("/")
 def home():
@@ -78,11 +78,22 @@ def new_listing():
           return redirect(url_for('listing_manager'))
      return render_template('new_listing.html', title='New Listing', legend='New Listing',form=form)
 
+def create_whatsapp_deeplink(number,message):
+     cleaned_num = number.replace('+', '').replace(' ','')
+     encoded_message = quote(message)
+     return f'https://wa.me/{cleaned_num}?text={encoded_message}'
+
 @app.route('/listing/<int:listing_id>')
 @login_required
 def listing(listing_id):
      listing = Listing.query.get_or_404(listing_id)
-     return render_template('listing.html', listing=listing)
+     seller = listing.author
+     number = seller.number
+
+     message = f"Hi, I'm interested in your listing on H2H. \n {listing.title} - {listing.price} \n link url"
+     link = create_whatsapp_deeplink(number=number,message=message)
+
+     return render_template('listing.html', listing=listing, whatsapp_link=link)
 
 @app.route('/listing/<int:listing_id>/update',methods=['GET','POST'])
 @login_required
@@ -148,3 +159,13 @@ def account():
 def listing_manager():
      listings = Listing.query.filter_by(uid=current_user.id).all()
      return render_template('listing_manager.html', listings=listings, num_listings=len(listings))
+
+@app.route('/user/<string:username>')
+def user_listings(username):
+    page = request.args.get('page', 1,type=int)
+    user = User.query.filter_by(username=username).first_or_404()
+    listings = Listing.query.filter_by(author=user)\
+          .order_by(Listing.created_at.desc())\
+          .paginate(page=page, per_page=5)\
+          
+    return render_template('user_listings.html', listings=listings, user=user)

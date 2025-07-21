@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{%block content%}
+
+<div class="flex mt-8 flex-col gap-8 justify-center items-center sm:flex-row sm:flex-wrap sm:gap-16">
+             {% if current_user.username == user.username%}
+                <a class="btn" href="{{url_for('listing_manager')}}">Manage Listings</a>
+             {% endif%}
+             <h3 class="text-4xl">Listings by <span class="font-semibold">{{user.username}}</span>:</h3>
+            {% for listing in listings.items %}
+                <div class="min-h-[400px] min-w-[300px] card card-md sm:card-lg mb-2 bg-slate-900 w-96 shadow-sm text-white">
+                    <figure class="p-2">
+
+                        <img src="{{url_for('static', filename='img/default.jpg')}}" alt="{{listing.title}} ">
+                    </figure>
+                    <div class="card-body">
+                        <h2 class="card-title overflow-hidden  max-h-16">
+                            {{listing.title|truncate(30,True, '...' )}}
+                            <div class="badge border-0 bg-green-600">${{listing.price}}</div>
+                        </h2>
+                        <p class="overflow-clip  max-h-24">{{listing.description|truncate(100,False, '...' )}}</p>
+                        <div class="card-action justify-end">
+                            <div class="badge badge-outline">{{listing.category}}</div>
+                            <div class="badge badge-outline ml-2">{{listing.location}}</div>
+                            <a href="{{url_for('listing', listing_id=listing.id)}}" class="btn ml-8">View</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+    </div>
+
+
+    <div class="join mx-auto w-fit flex justify-center my-20">
+        {% if listings.has_prev %}
+            <a href='{{url_for("dashboard", page=listings.prev_num)}}' class="join-item btn">⬅️</a>
+        {% else %}
+            <a href='{{url_for("dashboard", page=listings.prev_num)}}' class="join-item btn btn-disabled">⬅️</a>
+        {% endif %}
+
+        <button class="join-item btn">Page {{listings.page}}</button>
+
+        {% if listings.has_next %}
+            <a href='{{url_for("dashboard", page=listings.next_num)}}' class="join-item btn btn-">➡️</a>
+        {% else %}
+            <a href='{{url_for("dashboard", page=listings.next_num)}}' class="join-item btn btn-disabled">⬅️</a>
+        {% endif %}
+    </div>
+{%endblock%}
