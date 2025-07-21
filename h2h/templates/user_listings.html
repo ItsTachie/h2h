@@ -6,7 +6,7 @@
              {% if current_user.username == user.username%}
                 <a class="btn" href="{{url_for('listing_manager')}}">Manage Listings</a>
              {% endif%}
-             <h3 class="text-4xl">Listings by <span class="font-semibold">{{user.username}}</span>:</h3>
+             <h3 class="text-4xl">Listings by <span class="font-semibold">{{user.username}} ({{total}})</span>:</h3>
             {% for listing in listings.items %}
                 <div class="min-h-[400px] min-w-[300px] card card-md sm:card-lg mb-2 bg-slate-900 w-96 shadow-sm text-white">
                     <figure class="p-2">
@@ -32,17 +32,17 @@
 
     <div class="join mx-auto w-fit flex justify-center my-20">
         {% if listings.has_prev %}
-            <a href='{{url_for("dashboard", page=listings.prev_num)}}' class="join-item btn">⬅️</a>
+            <a href='{{url_for("user_listings", username=user.username ,page=listings.prev_num)}}' class="join-item btn">⬅️</a>
         {% else %}
-            <a href='{{url_for("dashboard", page=listings.prev_num)}}' class="join-item btn btn-disabled">⬅️</a>
+            <a href='{{url_for("user_listings", username=user.username ,page=listings.prev_num)}}' class="join-item btn btn-disabled">⬅️</a>
         {% endif %}
 
         <button class="join-item btn">Page {{listings.page}}</button>
 
         {% if listings.has_next %}
-            <a href='{{url_for("dashboard", page=listings.next_num)}}' class="join-item btn btn-">➡️</a>
+            <a href='{{url_for("user_listings", username=user.username ,page=listings.next_num)}}' class="join-item btn btn-">➡️</a>
         {% else %}
-            <a href='{{url_for("dashboard", page=listings.next_num)}}' class="join-item btn btn-disabled">⬅️</a>
+            <a href='{{url_for("user_listings", username=user.username ,page=listings.next_num)}}' class="join-item btn btn-disabled">⬅️</a>
         {% endif %}
     </div>
 {%endblock%}

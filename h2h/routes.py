@@ -200,6 +200,7 @@ def user_listings(username):
     user = User.query.filter_by(username=username).first_or_404()
     listings = Listing.query.filter_by(author=user)\
           .order_by(Listing.created_at.desc())\
-          .paginate(page=page, per_page=5)\
+          .paginate(page=page, per_page=5)
+    
           
-    return render_template('user_listings.html', listings=listings, user=user)
+    return render_template('user_listings.html', listings=listings, user=user, total=listings.total)
