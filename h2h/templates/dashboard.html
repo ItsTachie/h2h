@@ -1,71 +1,77 @@
 {% extends 'base.html' %}
 
-{%block content%}
-    <div tabindex="0" class="collapse collapse-arrow bg-base-100 border-base-300 border my-4">
-        <input type="checkbox">
-        <div class="collapse-title font-semibold">Filter</div>
-        <div class="collapse-content text-sm">
-            <div class="" >
-                <p class="mt-2">Categories: </p>
-                <form action="" class="filter">
-                    <input type="reset" value="x" class="btn btn-square">
-                    {%for category in categories%}
-                        <input type="radio" aria-label="{{category}}" class="btn mb-1 checked:text-white checked:bg-slate-900" name="categories">
-                    {%endfor%}
+{% block content %}
+<script src="https://unpkg.com/htmx.org"></script>
 
-                </form>
-            </div>
+<div tabindex="0" class="collapse collapse-arrow bg-base-100 border-base-300 border my-4">
+  <input type="checkbox">
+  <div class="collapse-title font-semibold">Filter</div>
 
-            <div class="" >
-                <p class="mt-2">Location: </p>
-                <form action="" class="filter">
-                    <input type="reset" value="x" class="btn btn-square">
-                    {%for location in locations%}
-                        <input type="radio" aria-label="{{location}}" class="btn mb-1 checked:text-white checked:bg-slate-900" name="locations">
-                    {%endfor%}
-                </form>
-            </div>
+  <div class="collapse-content text-sm">
+    <form 
+      hx-get="{{ url_for('dashboard') }}" 
+      hx-target="#results" 
+      hx-trigger="change"
+      class="grid gap-4"
+    >
+      <div>
+        <p class="mt-2 font-medium">Category:</p>
+        <div class="flex gap-2 flex-wrap">
+          <label>
+            <input type="radio" name="category" value=""
+            class="radio {% if cat == category %}checked{% endif %}">
+            All
+          </label>
+          {% for cat in categories %}
+            <label>
+              <input type="radio" name="category" value="{{cat}}"
+              class="radio {% if cat == category %}checked{% endif %}">
+              {{cat}}
+            </label>
+          {% endfor %}
         </div>
-    </div>
+      </div>
 
 
-    <div class="flex mt-8 flex-col gap-8 justify-center items-center sm:flex-row sm:flex-wrap sm:gap-16">
-            {% for listing in listings.items %}
-                <div class="min-h-[400px] min-w-[300px] card card-md sm:card-lg mb-2 bg-slate-900 w-96 shadow-sm text-white">
-                    <figure class="p-2">
 
-                        <img src="{{url_for('static', filename='img/default.jpg')}}" alt="{{listing.title}} ">
-                    </figure>
-                    <div class="card-body">
-                        <h2 class="card-title overflow-hidden  max-h-16">
-                            {{listing.title|truncate(30,True, '...' )}}
-                            <div class="badge border-0 bg-green-600">${{listing.price}}</div>
-                        </h2>
-                        <p class="overflow-clip  max-h-24">{{listing.description|truncate(100,False, '...' )}}</p>
-                        <div class="card-action justify-end">
-                            <div class="badge badge-outline">{{listing.category}}</div>
-                            <div class="badge badge-outline ml-2">{{listing.location}}</div>
-                            <a href="{{url_for('listing', listing_id=listing.id)}}" class="btn ml-8">View</a>
-                        </div>
-                    </div>
-                </div>
-            {% endfor %}
-    </div>
+      <div>
+        <p class="mt-2 font-medium">Location:</p>
+        <div class="flex gap-2 flex-wrap">
+          <label>
+            <input type="radio" name="location" value=""
+            class="radio {% if cat == category %}checked{% endif %}">
+            All
+          </label>
+          {% for loc in locations %}
+            <label>
+              <input type="radio" name="location" value="{{loc}}"
+              class="radio {% if cat == category %}checked{% endif %}" >
+              {{loc}}
+            </label>
+          {% endfor %}
+        </div>
+      </div>
 
 
-    <div class="join mx-auto w-fit flex justify-center my-20">
-        {% if listings.has_prev %}
-            <a href='{{url_for("dashboard", page=listings.prev_num)}}' class="join-item btn">⬅️</a>
-        {% else %}
-            <a href='{{url_for("dashboard", page=listings.prev_num)}}' class="join-item btn btn-disabled">⬅️</a>
-        {% endif %}
 
-        <button class="join-item btn">Page {{listings.page}}</button>
+      <button type="button" 
+  class="btn btn-outline mt-4"
+  onclick="clearFilters()"
+>Clear Filters</button>
+    </form>
+  </div>
+</div>
 
-        {% if listings.has_next %}
-            <a href='{{url_for("dashboard", page=listings.next_num)}}' class="join-item btn btn-">➡️</a>
-        {% else %}
-            <a href='{{url_for("dashboard", page=listings.next_num)}}' class="join-item btn btn-disabled">⬅️</a>
-        {% endif %}
-    </div>
-{%endblock%}
+<div id="results">
+  {% include 'partial_results.html' %}
+</div>
+
+<script>
+    function clearFilters() {
+      const form = document.querySelector('form');
+      form.reset();
+      // Trigger HTMX to re-fetch results with no filters
+      htmx.trigger(form, 'change');
+    }
+  </script>
+{% endblock %}

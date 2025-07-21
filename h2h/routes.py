@@ -49,16 +49,50 @@ def logout():
     logout_user()
     return redirect(url_for('home'))
 
+def get_filtered_listings(category=None,location=None,q=None,page=1,per_page=5):
+     listings = Listing.query.order_by(Listing.created_at.desc())
+ 
+     if category and category!= 'None':
+         listings = listings.filter_by(category=category)
+     if location and location != 'None':
+         listings = listings.filter_by(location=location)
+     if q:
+         q = q.strip()
+         listings = listings.filter(Listing.title.ilike(f'%{q}%'))
+
+     paginated_listings = listings.paginate(page=page, per_page=per_page)
+
+     return paginated_listings
+
 @app.route('/dashboard')
 @login_required
 def dashboard():
     form = ListingForm()
     categories = [ choice[1] for choice in form.category.choices]
-    
     locations = [ choice[1] for choice in form.location.choices]
+
     page = request.args.get('page', 1,type=int)
-    listings = Listing.query.order_by(Listing.created_at.desc()).paginate(page=page, per_page=5)
-    return render_template('dashboard.html', listings=listings, categories=categories, locations=locations)
+
+    category = request.args.get('category')
+    location = request.args.get('location')
+    query= request.args.get('q')
+    
+    listings=get_filtered_listings(category=category,location=location,q=query,page=page)
+
+    if request.headers.get("HX-Request"):
+        # Only return the listings fragment if this is an HTMX request
+        return render_template(
+            "partial_results.html",
+            listings=listings
+        )
+
+    
+    #listings = Listing.query.order_by(Listing.created_at.desc()).paginate(page=page, per_page=5)
+    return render_template('dashboard.html', listings=listings, 
+                           category=category,location=location,
+                           categories=categories, locations=locations,q=query)
+
+
 
 @app.route('/listing/new', methods=['GET','POST'])
 @login_required
