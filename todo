@@ -6,6 +6,7 @@
 - oauth login options (google, facebook)
 - on click of seller username show posts made by them 
     - if posts belong to user show link to manage listings page 
+-boost listing with paynow intergration 
 
 # cosmetics's
 - coherent styling all around the website

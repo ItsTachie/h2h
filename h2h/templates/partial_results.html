@@ -1,23 +1,35 @@
 <div class="flex mt-8 flex-col gap-8 justify-center items-center sm:flex-row sm:flex-wrap sm:gap-16">
     {% for listing in listings.items %}
-        <div class="min-h-[400px] min-w-[300px] card card-md sm:card-lg mb-2 bg-slate-900 w-96 shadow-sm text-white">
+        <div class="h-[400px] w-[350px]  sm:h-[500px]  sm:w-[400px] card card-md sm:card-lg mb-2 bg-slate-900 shadow-sm text-white">
             <figure class="p-2">
                 <img src="{{ url_for('static', filename='img/default.jpg') }}" alt="{{ listing.title }}">
             </figure>
-            <div class="card-body">
-                <h2 class="card-title overflow-hidden max-h-16">
-                    {{ listing.title | truncate(30, True, '…') }}
-                    <div class="badge border-0 bg-green-600">${{ listing.price }}</div>
+            <div class="card-body flex flex-col justify-between">
+                <h2 class="card-title text-lg font-bold whitespace-nowrap">
+                    {{ listing.title | truncate(35, True, '…') }}
+                    
                 </h2>
-                <p class="overflow-clip max-h-24">{{ listing.description | truncate(100, False, '…') }}</p>
+                <div class="badge border-0 bg-green-600 font-bold ">${{ listing.price }}</div>
+                <p class="text-sm overflow-hidden">{{ listing.description | truncate(150, False, '…') }}</p>
                 <div class="card-action justify-end">
-                    <div class="badge badge-outline">{{ listing.category }}</div>
-                    <div class="badge badge-outline ml-2">{{ listing.location }}</div>
-                    <a href="{{ url_for('listing', listing_id=listing.id) }}" class="btn ml-8">View</a>
+                    <div class="grid grid-cols-2 ">
+                        <div class="flex flex-col gap-2 items-start">
+                            <div class="badge badge-outline">{{ listing.category }}</div>
+                            <div class="badge badge-outline ml-2">{{ listing.location }}</div>
+                        </div>
+
+                        <a href="{{ url_for('listing', listing_id=listing.id) }}" class="btn ml-8">View</a>
+                    </div>
+                    
+                    
                 </div>
             </div>
         </div>
+    {%else%}
+        <p class="text-4xl">No listings found</p>
     {% endfor %}
+    
+
 </div>
 
 
@@ -25,13 +37,13 @@
 {% if listings.has_prev %}
     <a 
         href="{{ url_for('dashboard', page=listings.prev_num, category=category, location=location, q=q) }}" 
-        class="join-item btn"
+        class="join-item btn font-semibold text-lg"
         hx-get="{{ url_for('dashboard', page=listings.prev_num, category=category, location=location, q=q) }}" 
         hx-target="#results" 
         hx-swap="innerHTML"
-    >⬅️</a>
+    >&#8249;&#8249;</a>
 {% else %}
-    <a href="#" class="join-item btn btn-disabled">⬅️</a>
+    <a href="#" class="join-item btn btn-disabled">&#8249;&#8249;</a>
 {% endif %}
 
 <button class="join-item btn">Page {{ listings.page }}</button>
@@ -39,12 +51,12 @@
 {% if listings.has_next %}
     <a 
         href="{{ url_for('dashboard', page=listings.next_num, category=category, location=location, q=q) }}" 
-        class="join-item btn"
+        class="join-item btn  font-semibold text-lg"
         hx-get="{{ url_for('dashboard', page=listings.next_num, category=category, location=location, q=q) }}" 
         hx-target="#results" 
         hx-swap="innerHTML"
-    >➡️</a>
+    >&#8250;&#8250;</a>
 {% else %}
-    <a href="#" class="join-item btn btn-disabled">➡️</a>
+    <a href="#" class="join-item btn btn-disabled">&#8250;&#8250;</a>
 {% endif %}
 </div>

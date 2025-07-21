@@ -3,7 +3,7 @@
 {% block content %}
 <script src="https://unpkg.com/htmx.org"></script>
 
-<div tabindex="0" class="collapse collapse-arrow bg-base-100 border-base-300 border my-4">
+<div tabindex="0" class="collapse collapse-arrow bg-slate-900 border-0 text-white box mt-1">
   <input type="checkbox">
   <div class="collapse-title font-semibold">Filter</div>
 
@@ -11,7 +11,7 @@
     <form 
       hx-get="{{ url_for('dashboard') }}" 
       hx-target="#results" 
-      hx-trigger="change"
+      hx-trigger="change, keyup delay:300ms"
       class="grid gap-4"
     >
       <div>
@@ -52,12 +52,22 @@
         </div>
       </div>
 
-
+      <div class="sm:flex sm:items-center sm:justify-center sm:mt-8">
+        <p class="mt-2 font-medium sm:mr-4">Search:</p>
+        <input 
+          type="text" 
+          name="q" 
+          placeholder="Search keyword…" 
+          class="input text-black input-bordered w-full sm:w-1/2 "
+          value="{{ q|default('', true) }}"
+        >
+      </div>
 
       <button type="button" 
-  class="btn btn-outline mt-4"
+  class="btn  border-none mt-4 w-1/4 sm:w-1/8"
   onclick="clearFilters()"
 >Clear Filters</button>
+
     </form>
   </div>
 </div>

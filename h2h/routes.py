@@ -1,4 +1,5 @@
 from flask import render_template, url_for, request,flash,abort, redirect
+from sqlalchemy import or_
 from h2h import app, db,bcrypt
 from h2h.models import User, Listing
 from h2h.forms import ListingForm, RegistrationFrom, LoginForm, UpdateAccountForm
@@ -49,7 +50,7 @@ def logout():
     logout_user()
     return redirect(url_for('home'))
 
-def get_filtered_listings(category=None,location=None,q=None,page=1,per_page=5):
+def get_filtered_listings(category=None,location=None,q=None,page=1,per_page=9):
      listings = Listing.query.order_by(Listing.created_at.desc())
  
      if category and category!= 'None':
@@ -57,8 +58,9 @@ def get_filtered_listings(category=None,location=None,q=None,page=1,per_page=5):
      if location and location != 'None':
          listings = listings.filter_by(location=location)
      if q:
-         q = q.strip()
-         listings = listings.filter(Listing.title.ilike(f'%{q}%'))
+         listings = listings.filter(or_(Listing.title.ilike(f"%{q}%"),Listing.description.ilike(f"%{q}%")
+            )
+        )
 
      paginated_listings = listings.paginate(page=page, per_page=per_page)
 
@@ -75,7 +77,7 @@ def dashboard():
 
     category = request.args.get('category')
     location = request.args.get('location')
-    query= request.args.get('q')
+    query = request.args.get('q', '')
     
     listings=get_filtered_listings(category=category,location=location,q=query,page=page)
 
@@ -85,12 +87,12 @@ def dashboard():
             "partial_results.html",
             listings=listings
         )
-
     
-    #listings = Listing.query.order_by(Listing.created_at.desc()).paginate(page=page, per_page=5)
+    total=listings.total
+
     return render_template('dashboard.html', listings=listings, 
                            category=category,location=location,
-                           categories=categories, locations=locations,q=query)
+                           categories=categories, locations=locations,q=query, total=total)
 
 
 
@@ -200,7 +202,12 @@ def user_listings(username):
     user = User.query.filter_by(username=username).first_or_404()
     listings = Listing.query.filter_by(author=user)\
           .order_by(Listing.created_at.desc())\
-          .paginate(page=page, per_page=5)
+          .paginate(page=page, per_page=9)
     
           
     return render_template('user_listings.html', listings=listings, user=user, total=listings.total)
+'''
+@app.route('/boost/listing/<int:listing_id>'  ,methods=['GET'])
+def boost_listing(listing_id):
+    
+    return render_template('boost.html')'''

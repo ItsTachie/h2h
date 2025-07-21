@@ -15,9 +15,8 @@
                         <div class="text-xs uppercase font-semibold opacity-60">$ {{listing.price}}</div>
                         <p class="list-col-wrap text-xs">{{listing.description|truncate(20,True, '...' )}}</p>
                     </div>
-                    <a class="btn " href="">Boost</a>
-                    <a class="btn " href="{{url_for('update_listing' , listing_id=listing.id)}}">Edit</a>
-                    <label class="btn " for="delete_modal" >Delete</label>
+                    <a class="btn border-none " href="{{url_for('update_listing' , listing_id=listing.id)}}">Edit</a>
+                    <label class="btn border-none " for="delete_modal" >Delete</label>
                     <input type="checkbox" id="delete_modal" class="modal-toggle">
                     <div class="modal" role="dialog">
                         <div class="modal-box  bg-slate-900">
@@ -25,7 +24,7 @@
                         <p class="py-4"> Are you sure ? This action cannot be undone. </p>
                         <div class="modal-action">
                             <form action="{{url_for('delete_listing', listing_id=listing.id)}}" method="post">
-                                <input type="submit" class="btn" value="Delete">
+                                <input type="submit" class="btn btn-error" value="Delete">
                             </form>
                             <label for="delete_modal" class="btn">Close</label>
                         </div>
