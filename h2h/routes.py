@@ -1,11 +1,17 @@
 from flask import render_template, url_for, request,flash,abort, redirect
 from sqlalchemy import or_
-from h2h import app, db,bcrypt
+from h2h import app, db,bcrypt,supabase,SUPABASE_URL
 from h2h.models import User, Listing
-from h2h.forms import ListingForm, RegistrationFrom, LoginForm, UpdateAccountForm
+from h2h.forms import ListingForm, RegistrationFrom, UpdateListingForm, LoginForm, UpdateAccountForm
 from flask_login import login_user, current_user, logout_user, login_required
 from phonenumbers import parse ,format_number,PhoneNumberFormat
 from urllib.parse import quote
+import secrets
+import os 
+
+
+
+
 
 @app.route("/")
 def home():
@@ -95,6 +101,16 @@ def dashboard():
                            categories=categories, locations=locations,q=query, total=total)
 
 
+def upload_picture(form_picture):
+     rand_hex = secrets.token_hex(8)
+     _, f_ext = os.path.splitext(form_picture.filename)
+     picture_fn = rand_hex + f_ext
+     file_bytes = form_picture.read()
+     try:      
+         res = supabase.storage.from_('listing-images').upload(picture_fn,file=file_bytes)
+     except Exception as e:
+          print(f'error uploading the file :{e}')
+     return picture_fn
 
 @app.route('/listing/new', methods=['GET','POST'])
 @login_required
@@ -106,7 +122,8 @@ def new_listing():
           price=form.price.data
           category=request.form.get('category','')
           location=request.form.get('location','')
-          listing = Listing(title=title, description=description,
+          filename = upload_picture(form.picture.data)
+          listing = Listing(title=title,image_file=filename ,description=description,
                              price=price, category=category,location=location ,author=current_user)
           db.session.add(listing)
           db.session.commit()
@@ -137,13 +154,21 @@ def update_listing(listing_id):
      listing = Listing.query.get_or_404(listing_id)
      if listing.author != current_user:
           abort(403)
-     form = ListingForm()
+     form = UpdateListingForm()
      if form.validate_on_submit():
             listing.title = form.title.data
             listing.description=form.description.data
             listing.price=form.price.data
             listing.category=request.form.get('category','')
             listing.location=request.form.get('location','')
+            try:
+                if form.picture.data:
+                #delete old picture from database upload new one 
+                    res = supabase.storage.from_('listing-images').remove([listing.image_file])
+                #upload new file and update file name 
+                    listing.image_file = upload_picture(form.picture.data)
+            except Exception as e:
+                print(f'error updating the file :{e}')
             db.session.commit()
             flash('Listing has been updated.', 'success')
             return redirect(url_for('listing_manager'))
@@ -211,3 +236,5 @@ def user_listings(username):
 def boost_listing(listing_id):
     
     return render_template('boost.html')'''
+
+

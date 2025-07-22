@@ -82,5 +82,16 @@ class ListingForm(FlaskForm):
     category = SelectField('Category',validators=[DataRequired()], choices=[('Electronic','Electronic'),('Fashion','Fashion'),('Home & Garden','Home & Garden'),('Health & Beauty','Health & Beauty'),('Sports & Outdoors','Sports & Outdoors'),('Toys & Games','Toys & Games'),('Automotive','Automotive'),('Books & Media','Books & Media'),('Pets','Pets'),('Arts & Crafts','Arts & Crafts'),('Services','Services'),('Food & Beverage','Food & Beverage')])
     location = SelectField('Location',validators=[DataRequired()],choices=[('Harare','Harare'),('Gweru','Gweru'),('Bulawayo','Bulawayo'),('Mutare','Mutare'),('Masvingo','Masvingo'),('Chinhoyi','Chinhoyi'),('Kwekwe','Kwekwe'),('Chitungwiza','Chitungwiza'),('Kadoma','Kadoma'),('Kariba','Kariba'),('Chimanimani','Chimanimani'),('Chipinge','Chipinge'),('Bindura','Bindura'),('Gokwe','Gokwe')])
     description = TextAreaField('Description',validators=[DataRequired()])
-    picture = FileField('Picture',validators=[FileAllowed(['jpg','png','jpeg'])])
+    picture = FileField('Picture',validators=[ DataRequired(),FileAllowed(['jpg','png','jpeg'])])
+    submit = SubmitField('Create')
+
+
+
+class UpdateListingForm(FlaskForm):
+    title = StringField('Title', validators=[DataRequired()])
+    price = IntegerField('Price', validators=[DataRequired()])
+    category = SelectField('Category',validators=[DataRequired()], choices=[('Electronic','Electronic'),('Fashion','Fashion'),('Home & Garden','Home & Garden'),('Health & Beauty','Health & Beauty'),('Sports & Outdoors','Sports & Outdoors'),('Toys & Games','Toys & Games'),('Automotive','Automotive'),('Books & Media','Books & Media'),('Pets','Pets'),('Arts & Crafts','Arts & Crafts'),('Services','Services'),('Food & Beverage','Food & Beverage')])
+    location = SelectField('Location',validators=[DataRequired()],choices=[('Harare','Harare'),('Gweru','Gweru'),('Bulawayo','Bulawayo'),('Mutare','Mutare'),('Masvingo','Masvingo'),('Chinhoyi','Chinhoyi'),('Kwekwe','Kwekwe'),('Chitungwiza','Chitungwiza'),('Kadoma','Kadoma'),('Kariba','Kariba'),('Chimanimani','Chimanimani'),('Chipinge','Chipinge'),('Bindura','Bindura'),('Gokwe','Gokwe')])
+    description = TextAreaField('Description',validators=[DataRequired()])
+    picture = FileField('Picture',validators=[ FileAllowed(['jpg','png','jpeg'])])
     submit = SubmitField('Create')

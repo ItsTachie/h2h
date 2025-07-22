@@ -8,7 +8,7 @@
             {% for listing in listings %}
                 <li class="list-row bg-slate-900 my-2">
                     <div>
-                        <img src="{{url_for('static', filename='img/default.jpg')}}" alt="" class="size-10 rounded-box">
+                        <img src="https://swkljpyzafsqnbjnwlck.supabase.co/storage/v1/object/public/listing-images/{{listing.image_file}}" alt="" class="size-10 rounded-box">
                     </div>
                     <div>
                         <div>{{listing.title|truncate(20,True, '...' )}}</div>
