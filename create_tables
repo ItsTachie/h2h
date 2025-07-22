@@ -1,0 +1,5 @@
+from h2h import db,app
+
+with app.app_context():
+    db.create_all()
+    print('tables creates ')

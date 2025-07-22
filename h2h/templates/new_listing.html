@@ -33,7 +33,7 @@
                             {% endfor %}
                         </div>
                     {% else %}
-                        {{ form.description(class='input h-32') }}
+                        {{ form.description(class='input h-32 break-words whitespace-pre-wrap ', rows=5, cols=40, wrap="soft") }}
                     {% endif %}
                 </div>
 

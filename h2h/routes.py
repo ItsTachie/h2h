@@ -99,13 +99,26 @@ def dashboard():
     return render_template('dashboard.html', listings=listings, 
                            category=category,location=location,
                            categories=categories, locations=locations,q=query, total=total)
+from PIL import Image,ImageOps
+import io
 
 
 def upload_picture(form_picture):
      rand_hex = secrets.token_hex(8)
      _, f_ext = os.path.splitext(form_picture.filename)
      picture_fn = rand_hex + f_ext
-     file_bytes = form_picture.read()
+
+     img = Image.open(form_picture)
+     img = ImageOps.exif_transpose(img)
+     img = img.convert('RGB')
+     img.thumbnail(size=(400,400))
+
+     img_bytes = io.BytesIO()
+     img.save(img_bytes,format='JPEG')
+     img_bytes.seek(0)
+
+
+     file_bytes = img_bytes.read()
      try:      
          res = supabase.storage.from_('listing-images').upload(picture_fn,file=file_bytes)
      except Exception as e:
@@ -188,6 +201,13 @@ def delete_listing(listing_id):
      listing = Listing.query.get_or_404(listing_id)
      if listing.author != current_user:
           abort(403)
+
+    #delete image from supabase 
+     try:
+        res = supabase.storage.from_('listing-images').remove([listing.image_file])
+     except Exception as e:
+        print(f'error updating the file :{e}')
+
      db.session.delete(listing)
      db.session.commit()
      flash('Listing has been deleted.', 'success')
