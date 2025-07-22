@@ -4,6 +4,7 @@
 - forgot password 
 - oauth login options (google, facebook)
 - boost listing with paynow intergration 
+- get htmx working on the server (download it)
 
 # cosmetics's
 - better footer with links to socials and legal things

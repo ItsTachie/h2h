@@ -8,7 +8,7 @@
     {%else%}
         <title>H2H</title>
     {%endif%}
-
+    <script src="{{ url_for('static', filename='js/htmx.min.js') }}"></script>
     <link rel="stylesheet" href="{{ url_for('static',filename='css/output.css') }}">
     <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
@@ -56,7 +56,7 @@
         </div>
     </header>
 
-    <main class="p-2">
+    <main class="p-1">
         {%block content%}
         {%endblock%}
     </main>

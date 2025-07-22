@@ -50,7 +50,7 @@ def logout():
     logout_user()
     return redirect(url_for('home'))
 
-def get_filtered_listings(category=None,location=None,q=None,page=1,per_page=9):
+def get_filtered_listings(category=None,location=None,q=None,page=1,per_page=10):
      listings = Listing.query.order_by(Listing.created_at.desc())
  
      if category and category!= 'None':
