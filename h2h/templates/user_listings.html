@@ -2,30 +2,40 @@
 
 {%block content%}
 
-<div class="flex mt-8 flex-col gap-8 justify-center items-center sm:flex-row sm:flex-wrap sm:gap-16">
-             {% if current_user.username == user.username%}
-                <a class="btn" href="{{url_for('listing_manager')}}">Manage Listings</a>
-             {% endif%}
-             <h3 class="text-4xl">Listings by <span class="font-semibold">{{user.username}} ({{total}})</span>:</h3>
-            {% for listing in listings.items %}
-                <div class="min-h-[400px] min-w-[300px] card card-md sm:card-lg mb-2 bg-slate-900 w-96 shadow-sm text-white">
-                    <figure class="p-2">
 
-                        <img src="{{url_for('static', filename='img/default.jpg')}}" alt="{{listing.title}} ">
+{% if current_user.username == user.username%}
+<a class="btn" href="{{url_for('listing_manager')}}">Manage Listings</a>
+{% endif%}
+<h3 class="text-4xl mt-4 text-center mx-auto">Listings by {{user.username}} ({{total}}):</h3>
+
+<div class="flex mt-8 flex-wrap gap-8 justify-center items-center sm:flex-row sm:flex-wrap sm:gap-16">
+ {% for listing in listings.items %}
+                <div class="h-[320px] w-[175px] md:h-[360px] md:w-[240px] card card-md bg-slate-900 shadow-sm text-white">
+                    <figure class="">
+                        <img class="h-fit w-fit" src="{{ url_for('static', filename='img/default.jpg') }}" alt="{{ listing.title }}">
                     </figure>
-                    <div class="card-body">
-                        <h2 class="card-title overflow-hidden  max-h-16">
-                            {{listing.title|truncate(30,True, '...' )}}
-                            <div class="badge border-0 bg-green-600">${{listing.price}}</div>
+                    <div class="card-body flex flex-col p-2">
+                        <h2 class="card-title text-sm font-bold whitespace-nowrap">
+                            {{ listing.title | truncate(24, False, '…') }}
+                            
                         </h2>
-                        <p class="overflow-clip  max-h-24">{{listing.description|truncate(100,False, '...' )}}</p>
+                        <div class="badge border-0 bg-green-600 font-bold ">${{ listing.price }}</div>
+                        <div class="badge badge-outline h-fit w-fit mb-2">{{ listing.category }}</div>
                         <div class="card-action justify-end">
-                            <div class="badge badge-outline">{{listing.category}}</div>
-                            <div class="badge badge-outline ml-2">{{listing.location}}</div>
-                            <a href="{{url_for('listing', listing_id=listing.id)}}" class="btn ml-8">View</a>
+                            <div class="grid grid-cols-2 ">
+                                <div class="">
+                                    <div class=" mt-2 text-s">📍{{ listing.location  }}</div>
+                                </div>
+        
+                                <a href="{{ url_for('listing', listing_id=listing.id) }}" class="btn ml-2">View</a>
+                            </div>
+                            
+                            
                         </div>
                     </div>
                 </div>
+            {%else%}
+                <p class="text-4xl">No listings found</p>
             {% endfor %}
     </div>
 
