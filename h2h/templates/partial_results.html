@@ -1,24 +1,23 @@
-<div class="flex mt-8 flex-col gap-8 justify-center items-center sm:flex-row sm:flex-wrap sm:gap-16">
+<div class="flex mt-8 gap-1 gap-y-2 justify-center items-center flex-wrap ">
     {% for listing in listings.items %}
-        <div class="h-[400px] w-[350px]  sm:h-[500px]  sm:w-[400px] card card-md sm:card-lg mb-2 bg-slate-900 shadow-sm text-white">
-            <figure class="p-2">
-                <img src="{{ url_for('static', filename='img/default.jpg') }}" alt="{{ listing.title }}">
+        <div class="h-[320px] w-[180px] card card-md bg-slate-900 shadow-sm text-white">
+            <figure class="">
+                <img class="h-fit w-fit" src="{{ url_for('static', filename='img/default.jpg') }}" alt="{{ listing.title }}">
             </figure>
-            <div class="card-body flex flex-col justify-between">
-                <h2 class="card-title text-lg font-bold whitespace-nowrap">
-                    {{ listing.title | truncate(35, True, '…') }}
+            <div class="card-body flex flex-col p-2">
+                <h2 class="card-title text-sm font-bold whitespace-nowrap">
+                    {{ listing.title | truncate(24, False, '…') }}
                     
                 </h2>
                 <div class="badge border-0 bg-green-600 font-bold ">${{ listing.price }}</div>
-                <p class="text-sm overflow-hidden">{{ listing.description | truncate(150, False, '…') }}</p>
+                <div class="badge badge-outline h-fit w-fit mb-2">{{ listing.category }}</div>
                 <div class="card-action justify-end">
                     <div class="grid grid-cols-2 ">
-                        <div class="flex flex-col gap-2 items-start">
-                            <div class="badge badge-outline">{{ listing.category }}</div>
-                            <div class="badge badge-outline ml-2">{{ listing.location }}</div>
+                        <div class="">
+                            <div class=" mt-2 text-s">📍{{ listing.location  }}</div>
                         </div>
 
-                        <a href="{{ url_for('listing', listing_id=listing.id) }}" class="btn ml-8">View</a>
+                        <a href="{{ url_for('listing', listing_id=listing.id) }}" class="btn ml-2">View</a>
                     </div>
                     
                     
