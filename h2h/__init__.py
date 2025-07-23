@@ -18,7 +18,7 @@ supabase= create_client(supabase_url=SUPABASE_URL, supabase_key=SUPABASE_SERVICE
 
 app = Flask(__name__, template_folder='templates', static_folder='static', static_url_path='/')
 app.config['SECRET_KEY'] = '7127d241054c4d188bc7d349c68f7c57'
-app.config['SQLALCHEMY_DATABASE_URI'] =  'sqlite:///./site.db'
+app.config['SQLALCHEMY_DATABASE_URI'] =  DATABASE_URL
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
