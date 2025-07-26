@@ -19,12 +19,15 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 INTEGRATION_ID = os.getenv('INTEGRATION_ID')
 INTEGRATION_KEY = os.getenv('INTEGRATION_KEY')
 
-
 app = Flask(__name__, template_folder='templates', static_folder='static', static_url_path='/')
 app.config['SECRET_KEY'] = SECRET_KEY
-app.config['SQLALCHEMY_DATABASE_URI'] = DATABASE_URL   
+app.config['SQLALCHEMY_DATABASE_URI'] = DATABASE_URL 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SERVER_NAME'] = SERVER_NAME
+app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {"pool_pre_ping": True}
+app.config['SQLALCHEMY_POOL_SIZE'] = 5
+app.config['SQLALCHEMY_MAX_OVERFLOW'] = 10
+app.config['SQLALCHEMY_POOL_RECYCLE'] = 1800
 
 db = SQLAlchemy(app)
 
@@ -42,9 +45,8 @@ login_manager.login_message_category = 'info'
 paynow = Paynow(
     integration_id=INTEGRATION_ID,
     integration_key=INTEGRATION_KEY,
-    return_url='https://3ce7807ff3b0.ngrok-free.app/payment/result',
-    result_url='https://3ce7807ff3b0.ngrok-free.app/payment/webhook'
+    return_url='http://localhost:5000/payment/result',
+    result_url='http://localhost:5000/payment/webhook'
 )
 
 from h2h import routes
-

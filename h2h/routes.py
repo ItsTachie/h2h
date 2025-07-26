@@ -202,8 +202,9 @@ def delete_listing(listing_id):
     #delete image from supabase 
      try:
         res = supabase.storage.from_('listing-images').remove([listing.image_file])
+        print(res)
      except Exception as e:
-        print(f'error updating the file :{e}')
+        print(f'error deleting the file :{e}')
 
      db.session.delete(listing)
      db.session.commit()
