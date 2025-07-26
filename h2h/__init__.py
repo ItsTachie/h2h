@@ -19,9 +19,10 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 INTEGRATION_ID = os.getenv('INTEGRATION_ID')
 INTEGRATION_KEY = os.getenv('INTEGRATION_KEY')
 
+
 app = Flask(__name__, template_folder='templates', static_folder='static', static_url_path='/')
 app.config['SECRET_KEY'] = SECRET_KEY
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///./site.db' # DATABASE_URL 
+app.config['SQLALCHEMY_DATABASE_URI'] = DATABASE_URL   
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SERVER_NAME'] = SERVER_NAME
 
