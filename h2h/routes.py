@@ -1,5 +1,5 @@
 from flask import render_template, url_for, request,flash,abort, redirect,session
-from sqlalchemy import or_
+from sqlalchemy import or_, desc
 from h2h import app, db,bcrypt,supabase,paynow
 from h2h.models import User, Listing,Payment
 from h2h.forms import ListingForm, RegistrationFrom, UpdateListingForm, LoginForm, UpdateAccountForm
@@ -60,7 +60,8 @@ def logout():
     return redirect(url_for('home'))
 
 def get_filtered_listings(category=None,location=None,q=None,page=1,per_page=10):
-     listings = Listing.query.order_by(Listing.created_at.desc())
+     now_utc = datetime.now(timezone.utc)
+     listings = Listing.query.order_by(desc(Listing.boosted_until > now_utc),desc(Listing.created_at))
  
      if category and category!= 'None':
          listings = listings.filter_by(category=category)
@@ -70,12 +71,8 @@ def get_filtered_listings(category=None,location=None,q=None,page=1,per_page=10)
          listings = listings.filter(or_(Listing.title.ilike(f"%{q}%"),Listing.description.ilike(f"%{q}%")
             )
         )
-
-     boosted = listings.filter(Listing.boosted_until > datetime.now(timezone.utc)).all()
      paginated_listings = listings.paginate(page=page, per_page=per_page)
-
-
-     return paginated_listings, boosted
+     return paginated_listings
 
 @app.route('/dashboard')
 @login_required
@@ -90,19 +87,18 @@ def dashboard():
     location = request.args.get('location')
     query = request.args.get('q', '')
     
-    listings, boosted = get_filtered_listings(category=category,location=location,q=query,page=page)
+    listings = get_filtered_listings(category=category,location=location,q=query,page=page)
 
     if request.headers.get("HX-Request"):
         # Only return the listings fragment if this is an HTMX request
         return render_template(
             "partial_results.html",
             listings=listings,
-            boosted_listings = boosted 
         )
 
     return render_template('dashboard.html', listings=listings, 
                            category=category,location=location,
-                           categories=categories, locations=locations,q=query, boosted_listings=boosted)
+                           categories=categories, locations=locations,q=query)
 
 def upload_picture(form_picture):
      rand_hex = secrets.token_hex(8)

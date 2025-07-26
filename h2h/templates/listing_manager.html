@@ -15,26 +15,26 @@
                         <div class="text-xs uppercase font-semibold opacity-60">$ {{listing.price}}</div>
                         <p class="list-col-wrap text-xs">{{listing.description|truncate(20,True, '...' )}}</p>
                     </div>
+
                     {% if not listing.is_boosted %}
                         <a class="btn border-none" href="{{ url_for('boost_info', listing_id=listing.id) }}">Boost</a>
                      {% else %}
-                        <button class="btn border-none btn-disabled">Boosted</button>
-
+                        <button class="btn border-none text-slate-600 btn-disabled">Boosted</button>
                      {% endif %}
-                    <a class="btn border-none " href="{{url_for('update_listing' , listing_id=listing.id)}}">Edit</a>
-                    <label class="btn border-none " for="delete_modal" >Delete</label>
-                    <input type="checkbox" id="delete_modal" class="modal-toggle">
-                    <div class="modal" role="dialog">
-                        <div class="modal-box  bg-slate-900">
-                        <h3 class="text-lg font-bold">Delete</h3>
-                        <p class="py-4"> Are you sure ? This action cannot be undone. </p>
-                        <div class="modal-action">
-                            <form action="{{url_for('delete_listing', listing_id=listing.id)}}" method="post">
-                                <input type="submit" class="btn btn-error" value="Delete">
-                            </form>
-                            <label for="delete_modal" class="btn">Close</label>
-                        </div>
+
+                     <div class="dropdown dropdown-left ">
+                        <div tabindex="0" role="button" class=" text-white m-1 my-2"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="inline-block h-5 w-5 stroke-current"> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h.01M12 12h.01M19 12h.01M6 12a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0z"></path> </svg></div>
+                        <ul tabindex="0" class="dropdown-content menu border-b-1 bg-slate-800 rounded-box z-1 w-52 p-2 shadow-sm">
+                          <li><a class="" href="{{url_for('update_listing' , listing_id=listing.id)}}">Edit</a></li>
+                          <li>
+                                <form action="{{url_for('delete_listing', listing_id=listing.id)}}" method="post">
+                                    <input type="submit" class="" value="Delete">
+                                </form>
+                            </li>
+                        </ul>
                     </div>
+                    
+                    
                 </li>
             {% endfor %}
         
