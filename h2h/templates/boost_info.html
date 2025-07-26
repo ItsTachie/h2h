@@ -1,0 +1,32 @@
+{% extends 'base.html'%}
+
+{%block content%}
+<div class="max-w-2xl mx-auto my-12 p-6 bg-slate-900 rounded-2xl shadow-lg text-white">
+    <h1 class="text-3xl font-bold ">Boost Your Listing</h1>
+    <p class="mb-4 text-lg">Want more visibility and faster sales? Boost your listing and have it shown at the top of search results.</p>
+
+    <div class="mb-6">
+      <h2 class="text-xl font-semibold mb-2">What You Get with a Boost</h2>
+      <ul class="list-disc pl-6 space-y-1 ">
+        <li>Featured placement on the homepage and at the top of category pages</li>
+        <li>Increased exposure to serious buyers</li>
+        <li>Higher chances of selling faster</li>
+      </ul>
+    </div>
+
+    <div class="mb-6">
+      <h2 class="text-xl font-semibold mb-2">Boosting Cost</h2>
+      <p class="">• <strong>$2.00 USD</strong> per boost<br>
+      • Boost lasts for <strong>7 days</strong><br>
+      • Pay securely using <strong>Paynow</strong></p>
+    </div>
+
+    <a class="flex flex-col items-center text-center mx-auto mt-8 mb-4" href="{{url_for('boost_listing', listing_id=listing_id)}}">
+        <img src="{{url_for('static', filename='img/pay_now.svg')}}" alt="">
+        </a>
+  </div>
+
+
+
+
+{%endblock%}

@@ -1,11 +1,13 @@
-from flask import Flask
+from flask import Flask,url_for
 from flask_sqlalchemy import SQLAlchemy   
 from flask_bcrypt import Bcrypt    
 from flask_login import LoginManager
 from supabase import create_client
 from dotenv import load_dotenv
 import os
-import psycopg2
+from flask_migrate import Migrate
+from paynow import Paynow
+
 
 load_dotenv()
 
@@ -14,19 +16,32 @@ SUPABASE_SERVICE_KEY = os.getenv('SUPABASE_SERVICE_KEY')
 DATABASE_URL = os.getenv('DATABASE_URL')
 supabase= create_client(supabase_url=SUPABASE_URL, supabase_key=SUPABASE_SERVICE_KEY)
 
-
+SECRET_KEY = os.getenv('SECRET_KEY')
 
 app = Flask(__name__, template_folder='templates', static_folder='static', static_url_path='/')
-app.config['SECRET_KEY'] = '7127d241054c4d188bc7d349c68f7c57'
-app.config['SQLALCHEMY_DATABASE_URI'] =  DATABASE_URL
+app.config['SECRET_KEY'] = SECRET_KEY
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///./site.db' # DATABASE_URL 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+
 db = SQLAlchemy(app)
 
+migrate = Migrate(app,db)
+
 bcrypt=Bcrypt()
+
+
+INTEGRATION_ID = os.getenv('INTEGRATION_ID')
+INTEGRATION_KEY = os.getenv('INTEGRATION_KEY')
+paynow = Paynow(
+    integration_id=INTEGRATION_ID,
+    integration_key=INTEGRATION_KEY,
+    return_url='http://07e4108efbf1.ngrok-free.app/payment/result',
+    result_url='http://07e4108efbf1.ngrok-free.app/payment/webhook'
+)
+
 login_manager=LoginManager()
-
 login_manager.init_app(app)
-
 login_manager.login_view = 'login'
 login_manager.login_message_category = 'info'
 

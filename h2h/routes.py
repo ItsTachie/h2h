@@ -1,15 +1,18 @@
-from flask import render_template, url_for, request,flash,abort, redirect
+from flask import render_template, url_for, request,flash,abort, redirect,session
 from sqlalchemy import or_
-from h2h import app, db,bcrypt,supabase,SUPABASE_URL
-from h2h.models import User, Listing
+from h2h import app, db,bcrypt,supabase,paynow
+from h2h.models import User, Listing,Payment
 from h2h.forms import ListingForm, RegistrationFrom, UpdateListingForm, LoginForm, UpdateAccountForm
 from flask_login import login_user, current_user, logout_user, login_required
 from phonenumbers import parse ,format_number,PhoneNumberFormat
 from urllib.parse import quote
 import secrets
 import os 
-
-
+import uuid
+import time
+from datetime import datetime, timezone, timedelta
+from PIL import Image,ImageOps
+import io
 
 
 
@@ -68,9 +71,11 @@ def get_filtered_listings(category=None,location=None,q=None,page=1,per_page=10)
             )
         )
 
+     boosted = listings.filter(Listing.boosted_until > datetime.now(timezone.utc)).all()
      paginated_listings = listings.paginate(page=page, per_page=per_page)
 
-     return paginated_listings
+
+     return paginated_listings, boosted
 
 @app.route('/dashboard')
 @login_required
@@ -85,23 +90,19 @@ def dashboard():
     location = request.args.get('location')
     query = request.args.get('q', '')
     
-    listings=get_filtered_listings(category=category,location=location,q=query,page=page)
+    listings, boosted = get_filtered_listings(category=category,location=location,q=query,page=page)
 
     if request.headers.get("HX-Request"):
         # Only return the listings fragment if this is an HTMX request
         return render_template(
             "partial_results.html",
-            listings=listings
+            listings=listings,
+            boosted_listings = boosted 
         )
-    
-    total=listings.total
 
     return render_template('dashboard.html', listings=listings, 
                            category=category,location=location,
-                           categories=categories, locations=locations,q=query, total=total)
-from PIL import Image,ImageOps
-import io
-
+                           categories=categories, locations=locations,q=query, boosted_listings=boosted)
 
 def upload_picture(form_picture):
      rand_hex = secrets.token_hex(8)
@@ -251,10 +252,99 @@ def user_listings(username):
     
           
     return render_template('user_listings.html', listings=listings, user=user, total=listings.total)
-'''
+
+@app.route('/boost/info/<int:listing_id>')
+def boost_info(listing_id):
+     return render_template('boost_info.html', listing_id =listing_id)
+
 @app.route('/boost/listing/<int:listing_id>'  ,methods=['GET'])
 def boost_listing(listing_id):
-    
-    return render_template('boost.html')'''
+    reference = str(uuid.uuid4())[:8]
+    listing = Listing.query.filter_by(id=listing_id).first()
+    email = listing.author.email
+    payment = paynow.create_payment(reference=reference,auth_email=email)
 
+    transaction_name = f'boost-{listing_id}'
+    payment.add(transaction_name, 2.00)
+    response = paynow.send(payment)
+
+    print(f'ref{reference}')
+
+    if response.success:
+         pollUrl = response.poll_url
+         payment_record = Payment(
+              reference=reference,
+              transaction_name=transaction_name,
+              amount=2.00,
+              poll_url=pollUrl,
+              user_id=listing.author.id
+              )
+         db.session.add(payment_record)
+         db.session.commit()
+
+         session['reference'] = reference
+         return redirect(response.redirect_url)
+    else:
+        flash('failed to create payment.please try again later','info')
+        return redirect(url_for('listing_manager'))
+
+
+@app.route('/payment/result',methods=['GET','POST'])
+def payment_result():
+    reference = session.get('reference')
+    if not reference:
+        flash("Payment reference not found.", "warning")
+        return redirect(url_for('listing_manager'))
+
+    payment = Payment.query.filter_by(reference=reference).first()
+    if not payment:
+        flash("Payment not found.", "warning")
+        return redirect(url_for('listing_manager'))
+    
+    if not payment.poll_url:
+        flash("Poll URL is missing.", "warning")
+        return redirect(url_for('listing_manager'))
+    
+    time.sleep(10)
+    
+
+    status = paynow.check_transaction_status(payment.poll_url)
+    payment.status=status.status
+
+    db.session.commit()
+
+    flash(f'Payment status: {status.status}' ,'info')
+    return redirect(url_for('listing_manager'))
+
+@app.route('/payment/webhook', methods=['POST'])
+def payment_webhook():
+     data = request.form
+     reference = data.get('reference')
+     status = data.get('status')
+     poll_url = data.get('pollurl')
+
+     if not reference or not status:
+        return "Missing data", 400
+     
+     payment = Payment.query.filter_by(reference=reference).first()
+     if not payment:
+        return "Payment not found", 404
+     
+     payment.status = status
+     payment.poll_url = poll_url or payment.poll_url
+     db.session.commit()
+
+     if status.lower() == "paid" and payment.transaction_name.startswith("boost-"):
+        try:
+            listing_id = int(payment.transaction_name.split("-")[1])
+            listing = Listing.query.get(listing_id)
+            if listing:
+                listing.boost()
+                db.session.commit()
+                print(f"✅ Listing {listing.id} boosted until {listing.boosted_until}")
+        except Exception as e:
+            print("⚠️ Boost failed:", e)
+            return "Error boosting listing", 500
+
+     return "OK", 200
 

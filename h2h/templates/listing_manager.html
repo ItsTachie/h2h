@@ -15,6 +15,12 @@
                         <div class="text-xs uppercase font-semibold opacity-60">$ {{listing.price}}</div>
                         <p class="list-col-wrap text-xs">{{listing.description|truncate(20,True, '...' )}}</p>
                     </div>
+                    {% if not listing.is_boosted %}
+                        <a class="btn border-none" href="{{ url_for('boost_info', listing_id=listing.id) }}">Boost</a>
+                     {% else %}
+                        <button class="btn border-none btn-disabled">Boosted</button>
+
+                     {% endif %}
                     <a class="btn border-none " href="{{url_for('update_listing' , listing_id=listing.id)}}">Edit</a>
                     <label class="btn border-none " for="delete_modal" >Delete</label>
                     <input type="checkbox" id="delete_modal" class="modal-toggle">

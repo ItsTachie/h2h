@@ -1,4 +1,63 @@
+{% if boosted_listings %}
+<div class="my-10 max-w-6xl mx-auto relative">
+    <h2 class="text-2xl font-bold mb-4 text-black">Featured Listings</h2>
+    
+    <!-- Scroll container -->
+    <div id="featured-carousel" class="flex overflow-x-auto space-x-4 pb-4 scrollbar-hide scroll-smooth snap-x snap-mandatory">
+        {% for listing in boosted_listings %}
+            <div class="snap-center flex-shrink-0 h-[320px] w-[175px] md:h-[360px] md:w-[240px] card bg-yellow-100 text-black shadow-lg border-2 border-yellow-400">
+                <figure class="h-[233.33px]">
+                    <img class="w-full h-full object-cover" src="https://swkljpyzafsqnbjnwlck.supabase.co/storage/v1/object/public/listing-images/{{ listing.image_file }}" alt="{{ listing.title }}">
+                </figure>
+                <div class="card-body flex flex-col p-2">
+                    <h2 class="card-title text-sm font-bold whitespace-nowrap">
+                        {{ listing.title | truncate(24, False, '…') }}
+                    </h2>
+                    <div class="badge border-0 bg-green-600 font-bold ">${{ listing.price }}</div>
+                    <div class="badge badge-outline h-fit w-fit mb-2">{{ listing.category }}</div>
+                    <div class="text-sm text-gray-700">📍{{ listing.location }}</div>
+                    <a href="{{ url_for('listing', listing_id=listing.id) }}" class="btn btn-sm btn-primary mt-2">View</a>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+    <!-- Prev/Next Buttons -->
+    <button id="prevBtn" aria-label="Previous" class="absolute top-1/2 left-0 -translate-y-1/2 bg-yellow-400 bg-opacity-80 text-black rounded-full p-2 hover:bg-opacity-100 transition z-10">
+        &#8249;
+    </button>
+    <button id="nextBtn" aria-label="Next" class="absolute top-1/2 right-0 -translate-y-1/2 bg-yellow-400 bg-opacity-80 text-black rounded-full p-2 hover:bg-opacity-100 transition z-10">
+        &#8250;
+    </button>
+</div>
+
+<script>
+    const carousel = document.getElementById('featured-carousel');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+
+    // Width of one card + margin (adjust if you change CSS)
+    const cardWidth = 240; // md:w-[240px]
+    const marginRight = 16; // space-x-4 is 1rem = 16px
+    const scrollStep = cardWidth + marginRight;
+
+    // Number of cards to scroll at once
+    const visibleCards = 4;
+    const scrollAmount = scrollStep * visibleCards;
+
+    prevBtn.addEventListener('click', () => {
+        carousel.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+    });
+
+    nextBtn.addEventListener('click', () => {
+        carousel.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+    });
+</script>
+{% endif %}
+
+
 <div class="flex mt-8 gap-y-4 justify-around sm:justify-center sm:gap-2 items-center flex-wrap p-0">
+   
     {% for listing in listings.items %}
         <div class="h-[320px] w-[175px] md:h-[360px] md:w-[240px] card card-md bg-slate-900 shadow-sm text-white">
             <figure class="h-[233.33px]">
