@@ -10,14 +10,15 @@
             <a href="{{url_for('signup')}}" class="btn px-4 py-2 rounded-full whitespace-nowrap ">Join Today</a>
         </div>
     </header>
-    <main class="flex flex-col">
+    <main class="flex flex-col p-0">
         <section id="hero" class="flex flex-col gap-8 px-8 py-16 sm:py-20 md:py-24 max-w-[1000px] mx-auto w-full ">
             <div class="text-center font-medium flex flex-col items-center gap-2 ">
-                <h2 class="text-5xl sm:text-6xl md:text-7xl">Giving pre-loved items a second home</h2>
+                <h2 class="text-5xl sm:text-6xl md:text-7xl">Buy and Sell Pre-Loved Items Easily in Zimbabwe</h2>
             </div>
-            <p class="text-center max-w-[600px] w-full mx-auto" ><span class="font-semibold">
-                A marketplace made by Zimbabweans for Zimbabweans. 
-            </span> Make some extra money by selling things you no longer need</p>
+            <p class="text-center max-w-[600px] w-full mx-auto" >A <span class="font-semibold">
+                 safe, simple 
+            </span>way to find second-hand goods near you — from phones to furniture.
+            Chat instantly via WhatsApp. No scams, no clutter.</p>
 
             <div class="grid grid-cols-1 w-fit mx-auto my-4 ">
                 <a href="{{url_for('login')}}" class="btn px-4 py-2 rounded-full text-xl sm:text-2xl md:text-3xl" >Browse MarketPlace</a>
@@ -29,84 +30,47 @@
             </div>
         </section>
 
-        <section id="maths" class="bg-slate-900 text-white  px-8 py-16 sm:py-20 md:py-24">
-            <div class="w-full mx-auto max-w-[1000px] display flex flex-col gap-8">
+        <section id="maths" class="bg-slate-900 w-full text-white  px-8 py-16 sm:py-20 md:py-24">
+            <div class="w-full mx-auto max-w-[1000px] display flex flex-col gap-8 bg-slate-900">
                 <div class="flex flex-col gap-2">
-                    <h3 class="text-5xl sm:text-6xl md:text-7xl mx-auto text-center text-white">What We Offer
-                    </h3>
-                    <p class="text-center mx-auto ">I have the experience to teach you what you need to know</p>
-                </div>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-16 my-10 " >
-                    <div class="border border-solid border-slate-800 hover:border-blue-400 p-4 rounded-lg duration-200 flex flex-col gap-4 group">
-                        <h4 class="bg-slate-950 border border-solid border-slate-800 w-fit rounded-lg px-4 py-2 text-3xl
-                        sm:text-4xl md:text-5xl -mt-8 group-hover:border-blue-400 duration-200" >
-                            NCEA</h4>
-                        <p>&rarr; Personalized support for Levels 1, 2, and 3</p>
-                        <p>&rarr; Focus on internal assessments, exams, and credits</p>
-                        <p>&rarr; Assistance with problem-solving techniques and past exam papers</p>
-                        <p>&rarr; Guidance on achieving Merit and Excellence standards</p>
-                    </div>
+                    <h2 class="text-5xl sm:text-6xl md:text-7xl mx-auto text-center mb-12 text-white">
+                        How it works
+                    </h2>
+                   
                     
-                <a href="{{url_for('signup')}}" class="w-fit mx-auto rounded-full px-8 py-4 btn
-                text-xl sm:text-2xl md:text-3xl" >Join Today</a>
+                     <div class="max-w-4xl mx-auto grid grid-cols-1 sm:grid-cols-2 gap-10">
+                       <div>
+                         <h3 class="text-xl font-semibold mb-2">1. Sign Up with WhatsApp or Email</h3>
+                         <p>Create your account in seconds — all you need is a phone number or email.</p>
+                       </div>
+                       <div>
+                         <h3 class="text-xl font-semibold mb-2">2. Post Your Item</h3>
+                         <p>Snap a photo, add a price and description, and publish your listing. It’s completely free.</p>
+                       </div>
+                       <div>
+                         <h3 class="text-xl font-semibold mb-2">3. Browse & Discover Deals</h3>
+                         <p>Search by category or location to find what you’re looking for — fast.</p>
+                       </div>
+                       <div>
+                         <h3 class="text-xl font-semibold mb-2">4. Chat via WhatsApp</h3>
+                         <p>See something you like? Tap a button to message the seller instantly on WhatsApp.</p>
+                       </div>
+                     </div>
             </div>
+
         </section>
-        <section id="reviews" class="flex flex-col gap-8 px-8 py-16 sm:py-20 md:py-24 max-w-[1000px] w-full mx-auto ">
-            <div class="flex flex-col gap-2">
-                <h3 class="text-5xl sm:text-6xl md:text-7xl mx-auto text-center">What Users Say</h3>
-                <p class="mx-auto text-center mt-8">See what others have said about the marketplace</p>
+
+         <section class="py-16 px-4 text-center">
+            <h2 class="text-3xl font-semibold mb-6">Coming Soon</h2>
+            <p class="mb-6">We're just getting started, and there's more on the way:</p>
+            <div class="flex flex-col items-center gap-4 max-w-2xl mx-auto mb-6">
+              <div class="bg-slate-900 text-white p-4 rounded-xl shadow w-full text-center">Seller verification badges</div>
+              <div class="bg-slate-900 text-white p-4 rounded-xl shadow w-full text-center">Door to door deliveries </div>
+              <div class="bg-slate-900 text-white p-4 rounded-xl shadow w-full text-center">Ratings & reviews</div>
+              <div class="bg-slate-900 text-white p-4 rounded-xl shadow w-full text-center">In-app chat</div>
+              
             </div>
-            <div class="flex flex-col gap-8 mt-10">
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                    <div class="card p-4 rounded-2xl flex flex-col gap-4">
-                        <div class="flex items-center gap-4 justify-between flex-wrap">
-                            <p class="indie text-3xl sm:text-4xl md:text-4xl">Pierre</p>
-                            <p class="tag dark rounded-full px-2 py-1">Student</p>
-                        </div>
-                        <p>Algebra was really hard for me, and I was falling behind. But my tutor goes over
-                            everything slowly and doesn&apos;t make me feel dumb for asking questions. Now I
-                            actually understand what&apos;s going on in class, and my grades are getting better too.
-                        </p>
-                    </div>
-                    <div class="card p-4 rounded-2xl flex flex-col gap-4">
-                        <div class="flex items-center gap-4 justify-between flex-wrap">
-                            <p class="indie text-3xl sm:text-4xl md:text-4xl">Tatenda</p>
-                            <p class="tag dark rounded-full px-2 py-1">Student</p>
-                        </div>
-                        <p>As someone who hasn&apos;t enjoyed maths before, James made it feel much easier and helped me make sense of what I am learning in class. Thanks James.</p>
-                    </div>
-                    <div class="card p-4 rounded-2xl flex flex-col gap-4">
-                        <div class="flex items-center gap-4 justify-between flex-wrap">
-                            <p class="indie text-3xl sm:text-4xl md:text-4xl">Indie</p>
-                            <p class="tag dark rounded-full px-2 py-1">Student</p>
-                        </div>
-                        <p>I needed help with maths because I don&apos;t like my teachers but I didn&apos;t want to
-                            fail my final year exams. James really knew how to explain things in a way that I could
-                            understand and I ended up doing better than expected :D</p>
-                    </div>
-                </div>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                    <div class="card p-4 rounded-2xl flex flex-col gap-4">
-                        <div class="flex items-center gap-4 justify-between flex-wrap">
-                            <p class="indie text-3xl sm:text-4xl md:text-4xl">Rodrigo</p>
-                            <p class="tag dark rounded-full px-2 py-1">Student</p>
-                        </div>
-                        <p>I wanted to find a tutor who could help advance my daughters mathematics ability beyond
-                            her current age level and stimulate her with more challenging material. James did an
-                            excellent job of helping Olivia to build her enthusiam and ability in Maths.</p>
-                    </div>
-                    <div class="card p-4 rounded-2xl flex flex-col gap-4">
-                        <div class="flex items-center gap-4 justify-between flex-wrap">
-                            <p class="indie text-3xl sm:text-4xl md:text-4xl">Olivia (Parent)</p>
-                            <p class="tag dark rounded-full px-2 py-1">Student</p>
-                        </div>
-                        <p>I felt that school was starting to get more challenging and I was unable to pass all my
-                            exams without some extra assistance. My sessions with Bridget were very supportive and
-                            enjoyable and it helped make completing all my homework and studying super easy.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
+           </section>
     </main>
 </div>
 {%endblock%}

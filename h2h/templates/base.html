@@ -7,7 +7,8 @@
         <title>{{title}}</title>
     {%else%}
         <title>H2H</title>
-    {%endif%}
+    {%endif%}  
+    <!-- <link rel="icon" type="image/x-icon" href="{{url_for('static',filename='img/download.png')}}"> -->
     <script src="{{ url_for('static', filename='js/htmx.min.js') }}"></script>
     <link rel="stylesheet" href="{{ url_for('static',filename='css/output.css') }}">
     <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
@@ -29,7 +30,7 @@
                         </div>
                         <ul 
                         tabindex="0"
-                        class="menu menu-md sm:menu-lg dropdown-content text-white bg-slate-900 rounded-box z-1 mt-3 w-52 p-2 shadow">
+                        class="menu menu-md sm:menu-lg dropdown-content text-white bg-slate-800 rounded-box z-1 mt-3 w-52 p-2 shadow">
                         <li><a class="hover:bg-slate-700"  href="{{url_for('dashboard')}}">Home</a></li>
                         <li><a class="hover:bg-slate-700"  href="{{url_for('listing_manager')}}">Listings</a></li>
                         <li><a class="hover:bg-slate-700"  href="{{url_for('account')}}">Account</a></li>
@@ -56,17 +57,19 @@
         </div>
     </header>
 
-    <main class="p-1">
+    <main class="p-1 h-full">
         {%block content%}
         {%endblock%}
     </main>
 
-    <footer class="footer sm:footer:horizontal footer-center bg-slate-900 
-    py-10 grid place-items-center text-white" >
+    <footer class="footer footer-horizontal footer-center bg-slate-900 text-primary-content p-10">
         <aside>
-            <p>Copyright ©️ 2025 - All right reserved</p>
+          <p class="font-bold">
+            Hand2Hand
+          </p>
+          <p>Copyright © 2025 - All right reserved</p>
         </aside>
-    </footer> 
+      </footer>
 
     <script>
         document.addEventListener('DOMContentLoaded',() => {

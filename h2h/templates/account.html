@@ -1,8 +1,8 @@
 {% extends 'base.html' %}
 
 {%block content%}
-
-<div class="p-8 my-20 w-fit mx-auto max-w-[1000px] rounded text-white bg-slate-900 " >
+<div class="my-10 mb-28 flex items-center justify-center">
+<div class="p-8 my-20 w-fit rounded text-white bg-slate-900 " >
     <h3 class="text-4xl my-2 ml-2 text-center">Account Info </h3>
     <hr class="opacity-85 my-4">
     <p class="ml-4 text-lg"><span class="font-semibold">Username:</span> {{current_user.username}}</p>
@@ -74,21 +74,9 @@
         </div>
     </div>
 
-    <label class="btn btn-error" for="delete_modal" >Delete Accout</label>
-    <input type="checkbox" id="delete_modal" class="modal-toggle">
-    <div class="modal" role="dialog">
-        <div class="modal-box  bg-slate-900">
-        <h3 class="text-lg font-bold">Delete Account</h3>
-        <p class="py-4"> Are you sure ? This action cannot be undone. </p>
-        <div class="modal-action">
-            <form action="" method="post">
-                <input type="submit" class="btn btn-error" value="Delete">
-            </form>
-            <label for="delete_modal" class="btn">Close</label>
-        </div>
-    </div>
-</div>
 
+</div>
+</div>
 
 
 

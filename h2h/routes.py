@@ -10,7 +10,7 @@ import secrets
 import os 
 import uuid
 import time
-from datetime import datetime, timezone, timedelta
+from datetime import datetime, timezone
 from PIL import Image,ImageOps
 import io
 
@@ -153,7 +153,10 @@ def listing(listing_id):
      seller = listing.author
      number = seller.number
 
-     message = f"Hi, I'm interested in your listing on H2H. \n {listing.title} - {listing.price} \n link url"
+     listing_url = url_for('listing', listing_id=listing.id, _external=True)
+
+     message = f"Hi! I'm interested in your listing on Hand2Hand:\n\n{listing.title} — ${listing.price}\n\nIs it still available?\n{listing_url}"
+
      link = create_whatsapp_deeplink(number=number,message=message)
 
      return render_template('listing.html', listing=listing, whatsapp_link=link)
@@ -260,7 +263,6 @@ def boost_listing(listing_id):
     listing = Listing.query.filter_by(id=listing_id).first()
     email = listing.author.email
     payment = paynow.create_payment(reference=reference,auth_email=email)
-
     transaction_name = f'boost-{listing_id}'
     payment.add(transaction_name, 2.00)
     response = paynow.send(payment)
