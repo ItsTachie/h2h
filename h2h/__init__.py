@@ -49,8 +49,8 @@ login_manager.login_message_category = 'info'
 paynow = Paynow(
     integration_id=INTEGRATION_ID,
     integration_key=INTEGRATION_KEY,
-    return_url='https://3ce7807ff3b0.ngrok-free.app/payment/result',
-    result_url='https://3ce7807ff3b0.ngrok-free.app/payment/webhook'
+    return_url=os.getenv('PAYNOW_RETURN_URL'),
+    result_url=os.getenv('PAYNOW_RESULT_URL')
 )
 
 class MyAdminIndexView(AdminIndexView):

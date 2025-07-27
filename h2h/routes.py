@@ -1,5 +1,5 @@
 from flask import render_template, url_for, request,flash,abort, redirect,session
-from sqlalchemy import or_, desc
+from sqlalchemy import or_,case
 from h2h import app, db,bcrypt,supabase,paynow
 from h2h.models import User, Listing,Payment
 from h2h.forms import ListingForm, RegistrationFrom, UpdateListingForm, LoginForm, UpdateAccountForm
@@ -61,7 +61,7 @@ def logout():
 
 def get_filtered_listings(category=None,location=None,q=None,page=1,per_page=10):
      now_utc = datetime.now(timezone.utc)
-     listings = Listing.query.order_by(desc(Listing.boosted_until > now_utc),desc(Listing.created_at))
+     listings = Listing.query.order_by(case((Listing.boosted_until > now_utc, 1), else_=0).desc(),Listing.created_at.desc())
  
      if category and category!= 'None':
          listings = listings.filter_by(category=category)
@@ -155,7 +155,7 @@ def listing(listing_id):
 
      listing_url = url_for('listing', listing_id=listing.id, _external=True)
 
-     message = f"Hi! I'm interested in your listing on Hand2Hand:\n\n{listing.title} — ${listing.price}\n\nIs it still available?\n{listing_url}"
+     message = f"Hi! I'm interested in your listing on HandToHand:\n\n{listing.title} — ${listing.price}\n\nIs it still available?\n{listing_url}"
 
      link = create_whatsapp_deeplink(number=number,message=message)
 
