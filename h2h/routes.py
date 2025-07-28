@@ -35,7 +35,7 @@ def signup():
         db.session.add(user)
         db.session.commit()
         login_user(user, remember=True)
-        flash(f'Welcome', 'info')
+        flash(f'Welcome!', 'info')
         return redirect(url_for('dashboard'))
     return render_template('signup.html', title='Signup',form=form)
 
@@ -284,7 +284,7 @@ def boost_listing(listing_id):
          session['reference'] = reference
          return redirect(response.redirect_url)
     else:
-        flash('failed to create payment.please try again later','info')
+        flash('Failed to create payment. Please try again later.','warning')
         return redirect(url_for('listing_manager'))
 
 
