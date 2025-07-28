@@ -62,7 +62,7 @@ def logout():
 def get_filtered_listings(category=None,location=None,q=None,page=1,per_page=10):
      now_utc = datetime.now(timezone.utc)
      listings = Listing.query.order_by(case((Listing.boosted_until > now_utc, 1), else_=0).desc(),Listing.created_at.desc())
- 
+
      if category and category!= 'None':
          listings = listings.filter_by(category=category)
      if location and location != 'None':
@@ -85,7 +85,7 @@ def dashboard():
 
     category = request.args.get('category')
     location = request.args.get('location')
-    query = request.args.get('q', '')
+    query = request.args.get('q', '').strip()
     
     listings = get_filtered_listings(category=category,location=location,q=query,page=page)
 
@@ -113,7 +113,6 @@ def upload_picture(form_picture):
      img_bytes = io.BytesIO()
      img.save(img_bytes,format='JPEG')
      img_bytes.seek(0)
-
 
      file_bytes = img_bytes.read()
      try:      
