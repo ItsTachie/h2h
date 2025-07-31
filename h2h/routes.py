@@ -242,6 +242,7 @@ def listing_manager():
      return render_template('listing_manager.html', listings=listings, num_listings=len(listings))
 
 @app.route('/user/<string:username>')
+@login_required
 def user_listings(username):
     page = request.args.get('page', 1,type=int)
     user = User.query.filter_by(username=username).first_or_404()
@@ -253,10 +254,12 @@ def user_listings(username):
     return render_template('user_listings.html', listings=listings, user=user, total=listings.total)
 
 @app.route('/boost/info/<int:listing_id>')
+@login_required
 def boost_info(listing_id):
      return render_template('boost_info.html', listing_id =listing_id)
 
 @app.route('/boost/listing/<int:listing_id>'  ,methods=['GET'])
+@login_required
 def boost_listing(listing_id):
     reference = str(uuid.uuid4())[:8]
     listing = Listing.query.filter_by(id=listing_id).first()
@@ -265,8 +268,6 @@ def boost_listing(listing_id):
     transaction_name = f'boost-{listing_id}'
     payment.add(transaction_name, 2.00)
     response = paynow.send(payment)
-
-    print(f'ref{reference}')
 
     if response.success:
          pollUrl = response.poll_url
@@ -281,6 +282,7 @@ def boost_listing(listing_id):
          db.session.commit()
 
          session['reference'] = reference
+
          return redirect(response.redirect_url)
     else:
         flash('Failed to create payment. Please try again later.','warning')
@@ -288,6 +290,7 @@ def boost_listing(listing_id):
 
 
 @app.route('/payment/result',methods=['GET','POST'])
+@login_required
 def payment_result():
     reference = session.get('reference')
     if not reference:
@@ -305,11 +308,12 @@ def payment_result():
     
     time.sleep(10)
     
-
     status = paynow.check_transaction_status(payment.poll_url)
     payment.status=status.status
 
     db.session.commit()
+
+    session.pop('reference')
 
     flash(f'Payment status: {status.status}' ,'info')
     return redirect(url_for('listing_manager'))
