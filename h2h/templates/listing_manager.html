@@ -3,6 +3,9 @@
 
 {% block content %}     
     {% if listings %}
+    <div class="flex mx-8 flex-row-reverse">
+        <a href="{{url_for('user_listings', username=current_user.username)}}" class="ml-4 text-white btn bg-slate-900">View Listings</a>
+    </div>
         <ul class=" mt-4 mb-80 list bg-base-100 rounded-box p-2 text-white" >
             <li class="p-4 pb-2 text-xs text-slate-900 opacity-70 tracking-wide" >Your active listings ({{num_listings}})</li>
             {% for listing in listings %}

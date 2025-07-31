@@ -137,7 +137,7 @@ def new_listing():
           db.session.add(listing)
           db.session.commit()
           flash('Listing created.', 'success')
-          return redirect(url_for('listing_manager'))
+          return redirect(url_for('user_listings', username=current_user.username))
      return render_template('new_listing.html', title='New Listing', legend='New Listing',form=form)
 
 def create_whatsapp_deeplink(number,message):
@@ -183,7 +183,7 @@ def update_listing(listing_id):
                 print(f'error updating the file :{e}')
             db.session.commit()
             flash('Listing has been updated.', 'success')
-            return redirect(url_for('listing_manager'))
+            return redirect(url_for('user_listings', username=current_user.username))
      elif request.method =='GET':
           form.submit.label.text ='Update'
           form.title.data = listing.title
