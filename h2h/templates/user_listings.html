@@ -4,7 +4,9 @@
 
 
 {% if current_user.username == user.username%}
-<a class="btn" href="{{url_for('listing_manager')}}">Manage Listings</a>
+<div class="flex flex-row-reverse">
+    <a class="btn mx-8 bg-slate-900 text-white" href="{{url_for('listing_manager')}}">Manage Listings</a>
+</div>
 {% endif%}
 <h3 class="text-4xl mt-4 text-center mx-auto">Listings by {{user.username}} ({{total}}):</h3>
 
