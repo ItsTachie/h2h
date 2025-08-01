@@ -266,7 +266,7 @@ def boost_listing(listing_id):
     email = listing.author.email
     payment = paynow.create_payment(reference=reference,auth_email=email)
     transaction_name = f'boost-{listing_id}'
-    payment.add(transaction_name, 2.00)
+    payment.add(transaction_name, 1.00)
     response = paynow.send(payment)
 
     if response.success:
@@ -274,7 +274,7 @@ def boost_listing(listing_id):
          payment_record = Payment(
               reference=reference,
               transaction_name=transaction_name,
-              amount=2.00,
+              amount=1.00,
               poll_url=pollUrl,
               user_id=listing.author.id
               )
@@ -360,5 +360,26 @@ def terms():
 
 @app.route("/about")
 def about():
-    
     return render_template('landing_page.html', title='H2H')
+
+@app.route("/delete_account/<int:user_id>")
+@login_required
+def delete_account(user_id):
+    user = User.query.filter_by(id=user_id).first()
+    listings = user.listings
+    #delete image from supabase 
+    try:
+        if listings:
+            for listing in listings:
+                res = supabase.storage.from_('listing-images').remove([listing.image_file])
+                print(res)
+    except Exception as e:
+        print(f'error deleting the file :{e}')
+
+    logout_user()
+
+    db.session.delete(user)
+    db.session.commit()
+    
+    flash('Account deleted','success')
+    return redirect(url_for('home'))
