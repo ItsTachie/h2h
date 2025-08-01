@@ -20,7 +20,7 @@ import io
 def home():
     if current_user.is_authenticated:
             return redirect(url_for('dashboard'))
-    return render_template('landing_page.html', title='Hand2Hand')
+    return render_template('landing_page.html', title='H2H')
 
 @app.route("/signup", methods=['POST', 'GET'])
 def signup():
@@ -350,3 +350,15 @@ def payment_webhook():
 
      return "OK", 200
 
+@app.route('/privacy')
+def privacy():
+     return render_template('privacy.html', title='Privacy Policy - HandToHand')
+
+@app.route('/terms')
+def terms():
+     return render_template('terms.html', title='Terms of Service - HandToHand')
+
+@app.route("/about")
+def about():
+    
+    return render_template('landing_page.html', title='H2H')

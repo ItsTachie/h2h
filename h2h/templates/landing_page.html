@@ -7,21 +7,19 @@
         <h1 class="text-2xl sm:text-3xl md:text-4xl ">HandToHand</h1>
         <button  class="card-button-secondary px-4 py-2 rounded-full whitespace-nowrap opacity-0 pointer-events-none">Book a session</button>
         <div class="fixed top-8 right-8">
-            <a href="{{url_for('signup')}}" class="btn px-4 py-2 rounded-full whitespace-nowrap ">Join Today</a>
+            <a href="{{url_for('signup')}}" class="btn px-4 py-2 rounded-full whitespace-nowrap text-white bg-slate-900 ">Join Today</a>
         </div>
     </header>
     <main class="flex flex-col p-0">
         <section id="hero" class="flex flex-col gap-8 px-8 py-16 sm:py-20 md:py-24 max-w-[1000px] mx-auto w-full ">
             <div class="text-center font-medium flex flex-col items-center gap-2 ">
-                <h2 class="text-5xl sm:text-6xl md:text-7xl">Buy and Sell Pre-Loved Items Easily in Zimbabwe</h2>
+                <h2 class="text-5xl sm:text-6xl md:text-7xl">Buy, Sell and Offer Services all in one place</h2>
             </div>
-            <p class="text-center max-w-[600px] w-full mx-auto" >A <span class="font-semibold">
-                 safe, simple 
-            </span>way to find second-hand goods near you — from phones to furniture.
-            Chat instantly via WhatsApp. No scams, no clutter.</p>
+            <p class="text-center max-w-[600px] w-full mx-auto" ><span class="font-semibold">
+            Zimbabwe's Marketplace for Everything Local. </span> From goods to services, HandToHand connects you.</p>
 
             <div class="grid grid-cols-1 w-fit mx-auto my-4 ">
-                <a href="{{url_for('login')}}" class="btn px-4 py-2 rounded-full text-xl sm:text-2xl md:text-3xl" >Browse MarketPlace</a>
+                <a href="{{url_for('login')}}" class="btn p-8 rounded-full text-xl sm:text-2xl md:text-3xl  text-white bg-slate-900 " >Browse MarketPlace</a>
             </div>
 
             <div class="w-fit mx-auto my-4 flex flex-col items-center gap-4 ">
@@ -41,7 +39,7 @@
                      <div class="max-w-4xl mx-auto grid grid-cols-1 sm:grid-cols-2 gap-10">
                        <div>
                          <h3 class="text-xl font-semibold mb-2">1. Sign Up with WhatsApp and Email</h3>
-                         <p>Create your account in seconds — all you need is a phone number and email.</p>
+                         <p>Create your account in seconds. All you need is a phone number and email.</p>
                        </div>
                        <div>
                          <h3 class="text-xl font-semibold mb-2">2. Post Your Item</h3>
@@ -49,13 +47,19 @@
                        </div>
                        <div>
                          <h3 class="text-xl font-semibold mb-2">3. Browse & Discover Deals</h3>
-                         <p>Search by category or location to find what you're looking for — fast.</p>
+                         <p>Search by category or location to find what you're looking for fast.</p>
                        </div>
                        <div>
                          <h3 class="text-xl font-semibold mb-2">4. Chat via WhatsApp</h3>
                          <p>See something you like? Tap a button to message the seller instantly on WhatsApp.</p>
                        </div>
+
+
                      </div>
+                     
+                     <div class="flex flex-row justify-center items-center mt-16">
+                        <a href="{{url_for('signup')}}" class=" btn rounded-full p-4 text-xl sm:text-2xl bg-amber-50 text-slate-900"> Join Today </a>
+                      </div>
             </div>
 
         </section>
@@ -64,8 +68,8 @@
             <h2 class="text-3xl font-semibold mb-6">Coming Soon</h2>
             <p class="mb-6">We're just getting started, and there's more on the way:</p>
             <div class="flex flex-col items-center gap-4 max-w-2xl mx-auto mb-6">
-              <div class="bg-slate-900 text-white p-4 rounded-xl shadow w-full text-center">Seller verification badges</div>
               <div class="bg-slate-900 text-white p-4 rounded-xl shadow w-full text-center">Door to door deliveries </div>
+              <div class="bg-slate-900 text-white p-4 rounded-xl shadow w-full text-center">Seller verification badges</div>
               <div class="bg-slate-900 text-white p-4 rounded-xl shadow w-full text-center">Ratings & reviews</div>
               <div class="bg-slate-900 text-white p-4 rounded-xl shadow w-full text-center">In-app chat</div>
               
