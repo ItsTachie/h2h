@@ -42,7 +42,7 @@ def signup():
         login_user(user, remember=True)
         flash(f'Welcome!', 'info')
         return redirect(url_for('dashboard'))
-    return render_template('signup.html', title='Signup',form=form)
+    return render_template('signup.html', title='Signup - H2H',form=form)
 
 @app.route("/login", methods=['POST', 'GET'])
 def login():
@@ -57,7 +57,7 @@ def login():
             return redirect(next_page) if next_page else redirect(url_for('dashboard'))
         else:
             flash('Login unsuccessful. Please check email and password !', 'error')
-    return render_template('login.html', title='Login',form=form)
+    return render_template('login.html', title='Login - H2H',form=form)
 
 @app.route('/logout')
 def logout():
@@ -143,7 +143,7 @@ def new_listing():
           db.session.commit()
           flash('Listing created.', 'success')
           return redirect(url_for('user_listings', username=current_user.username))
-     return render_template('new_listing.html', title='New Listing', legend='New Listing',form=form)
+     return render_template('new_listing.html', title='New Listing - H2H', legend='New Listing',form=form)
 
 def create_whatsapp_deeplink(number,message):
      cleaned_num = number.replace('+', '').replace(' ','')
@@ -197,7 +197,7 @@ def update_listing(listing_id):
           form.category.data= listing.category
           form.location.data = listing.location
         
-     return render_template('new_listing.html', title='Edit Listing', legend='Edit Listing',form=form)
+     return render_template('new_listing.html', title='Edit Listing - H2H', legend='Edit Listing',form=form)
 
 @app.route('/listing/<int:listing_id>/delete',methods=['POST'])
 @login_required
@@ -236,7 +236,7 @@ def account():
         form.email.data = current_user.email
         form.number.data= current_user.number
         form.username.data=current_user.username
-    return render_template('account.html', title='Account', form=form)
+    return render_template('account.html', title='Account - H2H', form=form)
 
 
 
