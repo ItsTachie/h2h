@@ -79,8 +79,44 @@ class LoginForm(FlaskForm):
 class ListingForm(FlaskForm):
     title = StringField('Title', validators=[DataRequired()])
     price = IntegerField('Price', validators=[DataRequired() , NumberRange(min=0, message="Price must be at least 0.")])
-    category = SelectField('Category',validators=[DataRequired()], choices=[('Electronic','Electronic'),('Fashion','Fashion'),('Home & Garden','Home & Garden'),('Health & Beauty','Health & Beauty'),('Sports & Outdoors','Sports & Outdoors'),('Toys & Games','Toys & Games'),('Automotive','Automotive'),('Books & Media','Books & Media'),('Pets','Pets'),('Arts & Crafts','Arts & Crafts'),('Services','Services'),('Food & Beverage','Food & Beverage')])
-    location = SelectField('Location',validators=[DataRequired()],choices=[('Harare','Harare'),('Gweru','Gweru'),('Bulawayo','Bulawayo'),('Mutare','Mutare'),('Masvingo','Masvingo'),('Chinhoyi','Chinhoyi'),('Kwekwe','Kwekwe'),('Chitungwiza','Chitungwiza'),('Kadoma','Kadoma'),('Kariba','Kariba'),('Chimanimani','Chimanimani'),('Chipinge','Chipinge'),('Bindura','Bindura'),('Gokwe','Gokwe')])
+    category = SelectField(
+        'Category',
+        validators=[DataRequired()],
+        choices=[
+            ('Arts & Crafts','Arts & Crafts'),
+            ('Automotive','Automotive'),
+            ('Books & Media','Books & Media'),
+            ('Electronic','Electronic'),
+            ('Fashion','Fashion'),
+            ('Food & Beverage','Food & Beverage'),
+            ('Health & Beauty','Health & Beauty'),
+            ('Home & Garden','Home & Garden'),
+            ('Pets','Pets'),
+            ('Services','Services'),
+            ('Sports & Outdoors','Sports & Outdoors'),
+            ('Toys & Games','Toys & Games')
+        ]
+    )
+    location = SelectField(
+        'Location',
+        validators=[DataRequired()],
+        choices=[
+            ('Harare','Harare'),
+            ('Bulawayo','Bulawayo'),
+            ('Chitungwiza','Chitungwiza'),
+            ('Mutare','Mutare'),
+            ('Gweru','Gweru'),
+            ('Kwekwe','Kwekwe'),
+            ('Kadoma','Kadoma'),
+            ('Masvingo','Masvingo'),
+            ('Chinhoyi','Chinhoyi'),
+            ('Bindura','Bindura'),
+            ('Gokwe','Gokwe'),
+            ('Chipinge','Chipinge'),
+            ('Kariba','Kariba'),
+            ('Chimanimani','Chimanimani')
+        ]
+    ) 
     description = TextAreaField('Description',validators=[DataRequired()])
     picture = FileField('Picture',validators=[ DataRequired(),FileAllowed(['jpg','png','jpeg'])])
     submit = SubmitField('Create')
@@ -90,8 +126,45 @@ class ListingForm(FlaskForm):
 class UpdateListingForm(FlaskForm):
     title = StringField('Title', validators=[DataRequired()])
     price = IntegerField('Price', validators=[DataRequired(), NumberRange(min=0, message="Price must be at least 0.")])
-    category = SelectField('Category',validators=[DataRequired()], choices=[('Electronic','Electronic'),('Fashion','Fashion'),('Home & Garden','Home & Garden'),('Health & Beauty','Health & Beauty'),('Sports & Outdoors','Sports & Outdoors'),('Toys & Games','Toys & Games'),('Automotive','Automotive'),('Books & Media','Books & Media'),('Pets','Pets'),('Arts & Crafts','Arts & Crafts'),('Services','Services'),('Food & Beverage','Food & Beverage')])
-    location = SelectField('Location',validators=[DataRequired()],choices=[('Harare','Harare'),('Gweru','Gweru'),('Bulawayo','Bulawayo'),('Mutare','Mutare'),('Masvingo','Masvingo'),('Chinhoyi','Chinhoyi'),('Kwekwe','Kwekwe'),('Chitungwiza','Chitungwiza'),('Kadoma','Kadoma'),('Kariba','Kariba'),('Chimanimani','Chimanimani'),('Chipinge','Chipinge'),('Bindura','Bindura'),('Gokwe','Gokwe')])
+    category = SelectField(
+        'Category',
+        validators=[DataRequired()],
+        choices=[
+            ('Arts & Crafts','Arts & Crafts'),
+            ('Automotive','Automotive'),
+            ('Books & Media','Books & Media'),
+            ('Electronic','Electronic'),
+            ('Fashion','Fashion'),
+            ('Food & Beverage','Food & Beverage'),
+            ('Health & Beauty','Health & Beauty'),
+            ('Home & Garden','Home & Garden'),
+            ('Pets','Pets'),
+            ('Services','Services'),
+            ('Sports & Outdoors','Sports & Outdoors'),
+            ('Toys & Games','Toys & Games')
+        ]
+    )
+    location = SelectField(
+        'Location',
+        validators=[DataRequired()],
+        choices=[
+            ('Harare','Harare'),
+            ('Bulawayo','Bulawayo'),
+            ('Chitungwiza','Chitungwiza'),
+            ('Mutare','Mutare'),
+            ('Gweru','Gweru'),
+            ('Kwekwe','Kwekwe'),
+            ('Kadoma','Kadoma'),
+            ('Masvingo','Masvingo'),
+            ('Chinhoyi','Chinhoyi'),
+            ('Bindura','Bindura'),
+            ('Gokwe','Gokwe'),
+            ('Chipinge','Chipinge'),
+            ('Kariba','Kariba'),
+            ('Chimanimani','Chimanimani')
+        ]
+    )
+
     description = TextAreaField('Description',validators=[DataRequired()])
     picture = FileField('Picture',validators=[ FileAllowed(['jpg','png','jpeg'])])
     submit = SubmitField('Create')

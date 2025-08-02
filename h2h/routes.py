@@ -358,6 +358,10 @@ def privacy():
 def terms():
      return render_template('terms.html', title='Terms of Service - HandToHand')
 
+@app.route('/safety')
+def safety():
+     return render_template('safety.html', title='Safety Guidelines - HandToHand')
+
 @app.route("/about")
 def about():
     logout_user()
