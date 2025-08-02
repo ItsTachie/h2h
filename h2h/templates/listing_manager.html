@@ -30,14 +30,33 @@
                         <ul tabindex="0" class="dropdown-content menu  bg-slate-800 rounded-box z-1 w-52 p-2 shadow-sm">
                           <li><a class="hover:bg-slate-700" href="{{url_for('update_listing' , listing_id=listing.id)}}">Edit</a></li>
                           <li class="hover:bg-slate-700">
-                                <form action="{{url_for('delete_listing', listing_id=listing.id)}}" method="post">
-                                    <input type="submit" class="" value="Delete">
+                            <button class="" onclick="my_modal_3.showModal()">Delete</button>
+                            <dialog id="my_modal_3" class="modal flex items-center justify-center">
+                            <div class="modal-box  text-black">
+                                <form method="dialog">
+                                <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
                                 </form>
+                                <h3 class="text-lg  font-bold">Delete Listing ?</h3>
+                                <p class="py-4">This action cannot be undone. Are you sure you want to delete this listings?</p>
+                                <div class="flex flex-row-reverse gap-4">
+                                    <form method="dialog">
+                                        <!-- if there is a button, it will close the modal -->
+                                        <button class="btn">Close</button>
+                                    </form>
+                                    <form method="post" action="{{url_for('delete_listing', listing_id=listing.id)}}" >
+                                        <input type="submit"  class="btn btn-error" value="Delete">
+                                    </form>
+                                </div>
+                            </div>
+                            </dialog>
                             </li>
                         </ul>
                     </div>
                     
                     
+
+                    
+   
                 </li>
             {% endfor %}
         
@@ -46,9 +65,9 @@
         <br>
         <br>
     {% else %}
-    <div class="flex flex-col gap-8 items-center my-70 p-8">
+    <div class="flex flex-col gap-8 items-center my-20 p-8">
         <p class="  text-4xl sm:text-6xl">No listings yet.</p>
-        <a class="btn text-2xl sm:text-4xl" href="{{url_for('new_listing')}}">Make a listing</a>
+        <a class="btn text-white bg-slate-900 text-xl sm:text-2xl p-8 rounded-full" href="{{url_for('new_listing')}}">Make a listing</a>
     </div>
     {% endif %}
 
