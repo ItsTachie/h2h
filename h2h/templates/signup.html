@@ -44,14 +44,14 @@
                     {{ form.number.label(class=' text-[15px] sm:text-[20px]') }}
                         <br>
                     {% if form.number.errors %}
-                        {{form.number(class='input input-error')}}
+                        {{form.number(class='input input-error',placeholder='e.g +263771425109')}}
                         <div class="text-red-500">
                             {% for error in form.number.errors %}
                                 <span>{{ error }}</span>
                             {% endfor %}
                         </div>
                     {% else %}
-                        {{ form.number(class='input') }}
+                        {{ form.number(class='input',placeholder='e.g +263771425109') }}
                     {% endif %}
                 </div>
 
