@@ -20,18 +20,20 @@ class RegistrationFrom(FlaskForm):
 
     def validate_number(self,number):
         try:
-            num= parse(number.data,'ZW')
+            num = parse(number.data,'ZW')
             if not is_valid_number(num):
                 raise ValidationError('Invalid phone number')
+            normalized_number = format_number(num,PhoneNumberFormat.E164)
         except phonenumberutil.NumberParseException:
             raise ValidationError('Invalid phone number format. Please include country code')
 
-        user=User.query.filter_by(number=number.data).first()
+        user=User.query.filter_by(number=normalized_number).first()
         if user:
             raise ValidationError('That number already in use ! Please choose another one') 
         
     def validate_email(self,email):
-        user = User.query.filter_by(email=email.data).first()
+        normalized_email = email.data.strip().lower()
+        user = User.query.filter_by(email=normalized_email).first()
         if user:
             raise ValidationError('That email already in use ! Please choose another one')
 

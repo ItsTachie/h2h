@@ -31,9 +31,14 @@ def signup():
         hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
         num_obj = parse(form.number.data,'ZW')
         number= format_number(num_obj,PhoneNumberFormat.E164)
-        user = User(username=form.username.data, number=number, email=form.email.data, password=hashed_password )
+        user = User(username=form.username.data, number=number, email=form.email.data.strip().lower(), password=hashed_password )
         db.session.add(user)
-        db.session.commit()
+        try:
+           db.session.commit()
+        except:
+            db.session.rollback()
+            flash('That email or phone number is already registered!', 'error')
+            return render_template('signup.html',title='Signup',form=form)
         login_user(user, remember=True)
         flash(f'Welcome!', 'info')
         return redirect(url_for('dashboard'))
