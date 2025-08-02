@@ -142,7 +142,7 @@ def new_listing():
           db.session.add(listing)
           db.session.commit()
           flash('Listing created.', 'success')
-          return redirect(url_for('user_listings', username=current_user.username))
+          return redirect(url_for('listing_manager'))
      return render_template('new_listing.html', title='New Listing - H2H', legend='New Listing',form=form)
 
 def create_whatsapp_deeplink(number,message):
