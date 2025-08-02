@@ -224,7 +224,7 @@ def account():
     form = UpdateAccountForm()
     if form.validate_on_submit():
          current_user.username = form.username.data
-         current_user.email = form.email.data
+         current_user.email = form.email.data.strip().lower()
          num_obj = parse(form.number.data,'ZW')
          number= format_number(num_obj,PhoneNumberFormat.E164)
          current_user.number = number
