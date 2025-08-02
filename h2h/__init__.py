@@ -9,6 +9,7 @@ from dotenv import load_dotenv
 import os
 from flask_migrate import Migrate
 from paynow import Paynow
+from flask_mail import Mail
 
 
 
@@ -19,6 +20,7 @@ SUPABASE_SERVICE_KEY = os.getenv('SUPABASE_SERVICE_KEY')
 DATABASE_URL = os.getenv('DATABASE_URL')
 SERVER_NAME= os.getenv('SERVER_NAME')
 SECRET_KEY = os.getenv('SECRET_KEY')
+SALT = os.getenv('SALT')
 INTEGRATION_ID = os.getenv('INTEGRATION_ID')
 INTEGRATION_KEY = os.getenv('INTEGRATION_KEY')
 ADMIN_EMAIL = os.getenv('ADMIN_EMAIL')
@@ -26,6 +28,7 @@ ADMIN_EMAIL = os.getenv('ADMIN_EMAIL')
 
 app = Flask(__name__, template_folder='templates', static_folder='static', static_url_path='/')
 app.config['SECRET_KEY'] = SECRET_KEY
+app.config['SALT'] = SALT
 app.config['SQLALCHEMY_DATABASE_URI'] = DATABASE_URL 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {"pool_pre_ping": True}
@@ -52,6 +55,15 @@ paynow = Paynow(
     return_url=os.getenv('PAYNOW_RETURN_URL'),
     result_url=os.getenv('PAYNOW_RESULT_URL')
 )
+
+app.config['MAIL_SERVER'] = 'smtp.googlemail.com'
+app.config['MAIL_PORT'] = 587
+app.config['MAIL_USE_TLS'] = True
+app.config['MAIL_USERNAME'] = os.getenv('MAIL_USERNAME')
+app.config['MAIL_PASSWORD'] = os.getenv('MAIL_PASSWORD')
+app.config['MAIL_DEFAULT_SENDER'] = ('HandToHand Support', 'support@handtohand.site')
+
+mail = Mail(app)
 
 class MyAdminIndexView(AdminIndexView):
      def is_accessible(self):

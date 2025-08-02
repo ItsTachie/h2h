@@ -1,6 +1,7 @@
-from h2h import db ,login_manager
+from h2h import db ,login_manager,app
 from datetime import datetime, timezone,timedelta
 from flask_login import UserMixin
+from itsdangerous import URLSafeTimedSerializer as Serializer
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -14,6 +15,20 @@ class User(db.Model, UserMixin):
     password = db.Column(db.String(60), nullable=False)
     listings = db.relationship('Listing', backref='author', cascade='all,delete' ,lazy=True)
     transactions = db.relationship('Payment', backref='author')
+
+    def get_reset_token(self):
+        s = Serializer(secret_key=app.config['SECRET_KEY'], salt=app.config['SALT'])
+        return s.dumps({'user_id':self.id})
+    
+    @staticmethod
+    def verify_reset_token(token):
+        s = Serializer(secret_key=app.config['SECRET_KEY'], salt=app.config['SALT'])
+        try:
+            user_id = s.loads(token,max_age=1800)['user_id']
+        except:
+            return None
+
+        return User.query.get(user_id)
 
     def __repr__(self):
         return f'User("{self.email}", "{self.number}")'

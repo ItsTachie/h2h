@@ -171,3 +171,20 @@ class UpdateListingForm(FlaskForm):
     description = TextAreaField('Description',validators=[DataRequired()])
     picture = FileField('Picture',validators=[ FileAllowed(['jpg','png','jpeg'])])
     submit = SubmitField('Create')
+
+
+class RequestResetForm(FlaskForm):
+    email = StringField('Email', validators=[DataRequired(), Email() ])
+    submit = SubmitField('Request Password Reset')
+
+    def validate_email(self,email):
+        normalized_email = email.data.strip().lower()
+        user = User.query.filter_by(email=normalized_email).first()
+        if user is None:
+            raise ValidationError('There is no account with that email. You must register first.')
+
+
+class ResetPasswordForm(FlaskForm):
+    password = PasswordField('Password', validators=[DataRequired()])
+    confirm_password = PasswordField('Confirm Password', validators=[DataRequired(), EqualTo('password')])
+    submit = SubmitField('Reset Password')

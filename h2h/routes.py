@@ -1,8 +1,9 @@
 from flask import render_template, url_for, request,flash,abort, redirect,session
 from sqlalchemy import or_,case
-from h2h import app, db,bcrypt,supabase,paynow
+from h2h import app, db,bcrypt,supabase,paynow,mail
 from h2h.models import User, Listing,Payment
-from h2h.forms import ListingForm, RegistrationFrom, UpdateListingForm, LoginForm, UpdateAccountForm
+from h2h.forms import (ListingForm, RegistrationFrom, UpdateListingForm, LoginForm, 
+                       UpdateAccountForm,RequestResetForm,ResetPasswordForm)
 from flask_login import login_user, current_user, logout_user, login_required
 from phonenumbers import parse ,format_number,PhoneNumberFormat
 from urllib.parse import quote
@@ -13,6 +14,7 @@ import time
 from datetime import datetime, timezone
 from PIL import Image,ImageOps
 import io
+from flask_mail import Message
 
 
 
@@ -393,3 +395,52 @@ def delete_account(user_id):
 
     flash('Account deleted','success')
     return redirect(url_for('home'))
+
+def send_reset_email(user):
+    token = user.get_reset_token()
+    msg = Message('Password Reset Request', 
+                  sender='support@handtohand.site',
+                  recipients=[user.email])
+    
+    msg.body = f'''To reset your password, visit the following link:
+{url_for('reset_token',token=token, _external=True)}
+
+If you did not make this request then simply ignore this email and no changes will be made
+'''
+    mail.send(msg)
+
+
+@app.route('/reset_password', methods=['GET','POST'])
+def reset_request():
+    if current_user.is_authenticated:
+        return redirect(url_for('dashboard'))
+    form = RequestResetForm()
+    if form.validate_on_submit():
+        user = User.query.filter_by(email=form.email.data.lower().strip()).first()
+        send_reset_email(user)
+        flash('An email has been sent with instruction to reset you password', 'info')
+        return redirect(url_for('login'))
+    return render_template('reset_request.html', title='Reset Password - H2H', legend='Request Reset',form=form)
+
+
+    
+@app.route('/reset_password/<token>', methods=['GET','POST'])
+def reset_token(token):
+    if current_user.is_authenticated:
+        return redirect(url_for('dashboard'))
+    
+    user = User.verify_reset_token(token)
+
+    if user is None:
+        flash('That is an invalid or expired token', 'warning')
+        return redirect(url_for('reset_request'))
+    form = ResetPasswordForm()
+    if form.validate_on_submit():
+        hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
+        user.password = hashed_password
+        db.session.commit()
+       
+        flash('Password has been updated! You are now able to log in', 'info')
+        return redirect(url_for('login'))
+
+    return render_template('reset_token.html', title='Reset Password - H2H', legend='Reset Password',form=form)
