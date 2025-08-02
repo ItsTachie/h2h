@@ -44,17 +44,19 @@
 
     <div class="join mx-auto w-fit flex justify-center my-20">
         {% if listings.has_prev %}
-            <a href='{{url_for("user_listings", username=user.username ,page=listings.prev_num)}}' class="join-item btn">⬅️</a>
+            <a href='{{url_for("user_listings", username=user.username ,page=listings.prev_num)}}' class="join-item btn">&#8249;&#8249;</a>
         {% else %}
-            <a href='{{url_for("user_listings", username=user.username ,page=listings.prev_num)}}' class="join-item btn btn-disabled">⬅️</a>
+            <a href='{{url_for("user_listings", username=user.username ,page=listings.prev_num)}}' class="join-item btn btn-disabled">&#8249;&#8249;</a>
         {% endif %}
 
         <button class="join-item btn">Page {{listings.page}}</button>
 
         {% if listings.has_next %}
-            <a href='{{url_for("user_listings", username=user.username ,page=listings.next_num)}}' class="join-item btn btn-">➡️</a>
+            <a href='{{url_for("user_listings", username=user.username ,page=listings.next_num)}}' class="join-item btn btn-">&#8250;&#8250;</a>
         {% else %}
-            <a href='{{url_for("user_listings", username=user.username ,page=listings.next_num)}}' class="join-item btn btn-disabled">⬅️</a>
+            <a href='{{url_for("user_listings", username=user.username ,page=listings.next_num)}}' class="join-item btn btn-disabled">&#8250;&#8250;</a>
         {% endif %}
     </div>
+
+    
 {%endblock%}

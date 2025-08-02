@@ -52,7 +52,7 @@ class Payment(db.Model):
     reference = db.Column(db.String(20), unique=True, nullable=False)
     transaction_name = db.Column(db.String(100), nullable=False)
     amount = db.Column(db.Float, nullable=False)
-    status = db.Column(db.String(20), nullable=False, default='Pending')  # e.g. 'Pending', 'Paid', 'Failed'
+    status = db.Column(db.String(20), nullable=False, default='pending')  # e.g. 'Pending', 'Paid', 'Failed'
     poll_url = db.Column(db.String(255))  # optional: for Paynow polling
     created_at = db.Column(db.DateTime, nullable=False, default=lambda: datetime.now(timezone.utc))
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=True)

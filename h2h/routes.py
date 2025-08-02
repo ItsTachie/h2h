@@ -248,9 +248,9 @@ def user_listings(username):
     user = User.query.filter_by(username=username).first_or_404()
     listings = Listing.query.filter_by(author=user)\
           .order_by(Listing.created_at.desc())\
-          .paginate(page=page, per_page=9)
+          .paginate(page=page, per_page=10)
     
-          
+
     return render_template('user_listings.html', listings=listings, user=user, total=listings.total)
 
 @app.route('/boost/info/<int:listing_id>')
@@ -309,7 +309,7 @@ def payment_result():
     time.sleep(10)
     
     status = paynow.check_transaction_status(payment.poll_url)
-    payment.status=status.status
+    payment.status= status.status.lower()
 
     db.session.commit()
 
@@ -332,7 +332,7 @@ def payment_webhook():
      if not payment:
         return "Payment not found", 404
      
-     payment.status = status
+     payment.status = status.lower()
      payment.poll_url = poll_url or payment.poll_url
      db.session.commit()
 
@@ -360,6 +360,7 @@ def terms():
 
 @app.route("/about")
 def about():
+    logout_user()
     return render_template('landing_page.html', title='H2H')
 
 @app.route("/delete_account/<int:user_id>")
@@ -380,6 +381,6 @@ def delete_account(user_id):
 
     db.session.delete(user)
     db.session.commit()
-    
+
     flash('Account deleted','success')
     return redirect(url_for('home'))
