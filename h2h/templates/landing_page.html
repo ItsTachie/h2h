@@ -6,7 +6,7 @@
     <header class="flex justify-between gap-8 p-8 max-w-[1000px] mx-auto w-full">
         <h1 class="text-2xl sm:text-3xl md:text-4xl ">HandToHand</h1>
         <button  class="card-button-secondary px-4 py-2 rounded-full whitespace-nowrap opacity-0 pointer-events-none">Book a session</button>
-        <div class="fixed top-8 right-8">
+        <div class="fixed top-8 right-8 z-9999 ">
             <a href="{{url_for('signup')}}" class="btn px-4 py-2 rounded-full whitespace-nowrap text-white bg-slate-900 ">Join Today</a>
         </div>
     </header>
@@ -63,6 +63,59 @@
             </div>
 
         </section>
+
+        <section id="reviews" class="flex flex-col gap-8 px-8 py-16 sm:py-20 md:py-24 max-w-[1000px] w-full mx-auto ">
+          <div class="flex flex-col gap-2">
+              <h2 class="text-5xl sm:text-6xl md:text-7xl mx-auto text-center">What Users are Saying </h2>
+          </div>
+          <div class="flex flex-col gap-8 mt-10">
+              <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                  <div class="card  bg-slate-900 text-white p-4 rounded-2xl flex flex-col gap-4">
+                      <div class="flex items-center gap-4 justify-between flex-wrap">
+                          <p class="indie text-2xl sm:text-3xl md:text-4xl">Tanaka M</p>
+                          <p class="tag dark rounded-full px-2 py-1">Harare</p>
+                      </div>
+                      <p>“I listed my old fridge and it sold in less than 24 hours. Way easier than posting in random WhatsApp groups!”</p>
+                  </div>
+                  <div class="card  bg-slate-900 text-white p-4 rounded-2xl flex flex-col gap-4">
+                      <div class="flex items-center gap-4 justify-between flex-wrap">
+                          <p class="indie text-2xl sm:text-3xl md:text-4xl">Chipo K</p>
+                          <p class="tag dark rounded-full px-2 py-1">Bulawayo</p>
+                      </div>
+                      <p>“I'm a uni student and started offering tutoring on HandToHand. I've already found 3 new clients in just a week.”</p>
+                  </div>
+                  <div class="card  bg-slate-900 text-white p-4 rounded-2xl flex flex-col gap-4">
+                      <div class="flex items-center gap-4 justify-between flex-wrap">
+                          <p class="indie text-2xl sm:text-3xl md:text-4xl">Farai D</p>
+                          <p class="tag dark rounded-full px-2 py-1">Mutare</p>
+                      </div>
+                      <p>“Love how simple it is. I posted my gardening tools in minutes, and the WhatsApp chat makes it stress-free.”</p>
+                  </div>
+              </div>
+<!--               
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                  <div class="card p-4  bg-slate-900 text-white rounded-2xl flex flex-col gap-4">
+                      <div class="flex items-center gap-4 justify-between flex-wrap">
+                          <p class="indie text-2xl sm:text-3xl md:text-4xl">Nyasha P</p>
+                          <p class="tag dark rounded-full px-2 py-1">Gweru</p>
+                      </div>
+                      <p>I wanted to find a tutor who could help advance my daughters mathematics ability beyond
+                          her current age level and stimulate her with more challenging material. James did an
+                          excellent job of helping Olivia to build her enthusiam and ability in Maths.</p>
+                  </div>
+                  <div class="card p-4 bg-slate-900 text-white rounded-2xl flex flex-col gap-4">
+                      <div class="flex items-center gap-4 justify-between flex-wrap">
+                          <p class="indie text-2xl sm:text-3xl md:text-4xl">Kuda S</p>
+                          <p class="tag dark rounded-full px-2 py-1">Chitungwiza</p>
+                      </div>
+                      <p>I felt that school was starting to get more challenging and I was unable to pass all my
+                          exams without some extra assistance. My sessions with Bridget were very supportive and
+                          enjoyable and it helped make completing all my homework and studying super easy.</p>
+                  </div>
+              </div> -->
+              
+          </div>
+      </section>
 
          <section class="py-16 px-4 text-center">
             <h2 class="text-3xl font-semibold mb-6">Coming Soon</h2>
