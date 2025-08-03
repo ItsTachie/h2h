@@ -82,7 +82,7 @@ def get_filtered_listings(category=None,location=None,q=None,page=1,per_page=10)
      return paginated_listings
 
 @app.route('/dashboard')
-@login_required
+
 def dashboard():
     form = ListingForm()
     categories = [ choice[1] for choice in form.category.choices]
