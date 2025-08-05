@@ -82,7 +82,6 @@ def get_filtered_listings(category=None,location=None,q=None,page=1,per_page=10)
      return paginated_listings
 
 @app.route('/dashboard')
-
 def dashboard():
     form = ListingForm()
     categories = [ choice[1] for choice in form.category.choices]
@@ -153,7 +152,6 @@ def create_whatsapp_deeplink(number,message):
      return f'https://wa.me/{cleaned_num}?text={encoded_message}'
 
 @app.route('/listing/<int:listing_id>')
-@login_required
 def listing(listing_id):
      listing = Listing.query.get_or_404(listing_id)
      seller = listing.author
@@ -249,7 +247,6 @@ def listing_manager():
      return render_template('listing_manager.html', listings=listings, num_listings=len(listings))
 
 @app.route('/user/<string:username>')
-@login_required
 def user_listings(username):
     page = request.args.get('page', 1,type=int)
     user = User.query.filter_by(username=username).first_or_404()
