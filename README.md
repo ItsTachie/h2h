@@ -1,6 +1,8 @@
 # HandToHand (H2H) Marketplace
 
-**HandToHand** is a full-featured community marketplace platform built with Flask. It allows users to post listings, manage items, and connect with buyers directly via WhatsApp. The platform also features a premium "Boost" system integrated with Paynow payment gateway for featured listings.
+[**HandToHand**](https://www.handtohand.site) is a full-featured community marketplace platform built with Flask. It allows users to post listings, manage items, and connect with buyers directly via WhatsApp. The platform also features a premium "Boost" system integrated with Paynow payment gateway for featured listings.
+
+[View the site](https://www.handtohand.site)
 
 ## Features
 
@@ -45,10 +47,19 @@ The platform includes built-in routes for:
 
 ## Application Screenshots
 
+The Landing Page 
 ![Landing Page](./screenshots/landingPage.png)
+
+The Main Dashboard
 ![The Dashboard](./screenshots/dashboard.png)
-![Listing Detail](./screenshot/listingDetailed.png)
+
+Detailed Listing View
+<img width="779" height="867" alt="Screenshot 2026-02-20 002139" src="https://github.com/user-attachments/assets/e076688b-4a36-46f6-831e-122541a588e9" />
+
+View To Manage Listings 
 ![Manage Listings](./screenshots/listingManagement.png)
+
+The Payment Gateway Redirect
 ![The "Boost" Flow (Paynow Integration)](./screenshots/boostPost.png)
 
 ---
